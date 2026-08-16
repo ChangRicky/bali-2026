@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>峇里島行程表 · 8/19–8/27 2026</title>
+<style>
+:root{
+  --paper:#faf8f4; --paper2:#fffefb; --ink:#1f2933; --ink2:#5b6772; --ink3:#8b959f;
+  --line:#e4ded3; --line2:#d3cabb;
+  --sea:#1d6f7a; --sea-l:#e6f2f3;
+  --sand:#b8763a; --sand-l:#fbf0e4;
+  --red:#c0392f; --red-l:#fbeae8;
+  --grn:#2f7a4f; --grn-l:#e7f4ec;
+  --gld:#a67c00; --gld-l:#fcf3d9;
+  --vio:#6b4fa8; --vio-l:#f0ebf9;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Segoe UI",sans-serif;
+  line-height:1.6;-webkit-font-smoothing:antialiased;padding-bottom:60px;font-size:15px}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+
+.masthead{background:var(--paper2);border-bottom:3px double var(--line2);padding:26px 0 20px;text-align:center}
+.masthead .kicker{font-size:11px;letter-spacing:.34em;color:var(--sand);font-weight:700}
+.masthead h1{font-size:clamp(22px,5vw,31px);font-weight:800;letter-spacing:.02em;margin:9px 0 5px}
+.masthead .dates{font-size:14px;color:var(--ink2)}
+.masthead .pax{margin-top:8px;font-size:12.5px;color:var(--ink3)}
+
+.tabs{position:sticky;top:0;z-index:50;background:rgba(250,248,244,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.tabs-inner{display:flex;gap:2px;overflow-x:auto;max-width:980px;margin:0 auto;padding:0 14px;scrollbar-width:none}
+.tabs-inner::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;padding:13px 14px;font-size:14px;font-weight:700;color:var(--ink3);border:0;background:none;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+.tab.on{color:var(--sea);border-bottom-color:var(--sea)}
+.panel{display:none;padding-top:26px}
+.panel.on{display:block}
+
+h2{font-size:19px;font-weight:800;margin:32px 0 5px}
+h2:first-child{margin-top:0}
+.lead{color:var(--ink2);font-size:14px;margin-bottom:16px}
+
+.sheet{background:var(--paper2);border:1px solid var(--line);border-radius:10px;margin-bottom:18px;overflow:hidden;box-shadow:0 1px 2px rgba(31,41,51,.04)}
+.sheet-h{display:flex;align-items:center;gap:14px;padding:14px 18px;background:linear-gradient(90deg,var(--sea-l),transparent 70%);border-bottom:1px solid var(--line)}
+.sheet.s .sheet-h{background:linear-gradient(90deg,var(--sand-l),transparent 70%)}
+.sheet.mv .sheet-h{background:linear-gradient(90deg,var(--gld-l),transparent 70%)}
+.dnum{flex:0 0 auto;text-align:center;border-right:1px solid var(--line2);padding-right:14px}
+.dnum .d1{font-size:21px;font-weight:800;line-height:1}
+.dnum .d2{font-size:11px;color:var(--ink3);margin-top:2px}
+.dinfo{flex:1;min-width:0}
+.dinfo .th{font-size:16px;font-weight:800}
+.dinfo .sb{font-size:12.5px;color:var(--ink2);margin-top:1px}
+.stay{flex:0 0 auto;font-size:11px;font-weight:700;padding:4px 10px;border-radius:5px;background:var(--sea-l);color:var(--sea);white-space:nowrap}
+.sheet.s .stay{background:var(--sand-l);color:var(--sand)}
+.sheet.mv .stay{background:var(--gld-l);color:var(--gld)}
+
+.seg{border-top:1px solid var(--line)}
+.seg:first-of-type{border-top:0}
+.seg-h{padding:7px 18px;background:#f5f2ec;font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--ink3)}
+.row{display:grid;grid-template-columns:74px 1fr auto;gap:0 14px;padding:11px 18px;border-top:1px solid #f0ece5;align-items:start}
+.row:first-of-type{border-top:0}
+.row .tme{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:var(--sea);font-weight:700;padding-top:1px}
+.sheet.s .row .tme{color:var(--sand)}
+.row .body .pl{font-weight:700;font-size:14.5px}
+.row .body .ds{font-size:13px;color:var(--ink2);margin-top:2px}
+.row .body .ds em{font-style:normal;color:var(--ink);font-weight:600}
+.row.drive{background:#f7f5f0}
+.row.drive .body .pl{font-weight:600;font-size:13.5px;color:var(--ink2)}
+.row.blank{background:repeating-linear-gradient(135deg,#fbf9f5,#fbf9f5 10px,#f6f3ed 10px,#f6f3ed 20px)}
+.row.blank .body .pl{color:var(--ink3);font-weight:800;letter-spacing:.08em}
+.row.blank .tme{color:var(--ink3)}
+.bdg{flex:0 0 auto;font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:99px;white-space:nowrap;align-self:flex-start;margin-top:2px}
+.b-done{background:var(--grn-l);color:var(--grn)}
+.b-todo{background:var(--red-l);color:var(--red)}
+.b-self{background:#eeeae2;color:var(--ink3)}
+.b-open{background:var(--vio-l);color:var(--vio)}
+.b-info{background:var(--sea-l);color:var(--sea)}
+.b-cash{background:var(--gld-l);color:var(--gld)}
+
+/* link chips */
+.lks{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+.lk{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:700;text-decoration:none;padding:3px 9px;border-radius:99px;border:1px solid var(--line2);background:#fff;color:var(--ink2)}
+.lk:hover{border-color:var(--sea);color:var(--sea)}
+.lk.map{background:#eef4ff;border-color:#c3d5f5;color:#2b5fb5}
+.lk.web{background:#f0f7f2;border-color:#c2ddcc;color:var(--grn)}
+.lk.wa{background:#eefaf1;border-color:#b9e6c7;color:#1a7f3c}
+
+.gap-note{padding:11px 18px;background:var(--red-l);border-top:1px solid var(--line);font-size:13px;color:#8c2b23}
+.gap-note b{color:var(--red)}
+.gap-note.ok{background:var(--grn-l);color:#1f5a3a}
+.gap-note.ok b{color:var(--grn)}
+.tip{padding:10px 18px;background:#fcf9f2;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink2)}
+.tip b{color:var(--ink)}
+
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:9px;margin:14px 0;background:var(--paper2)}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:520px}
+th{background:#f2eee7;text-align:left;padding:10px 13px;font-weight:800;font-size:11.5px;letter-spacing:.05em;color:var(--ink2);border-bottom:1px solid var(--line)}
+td{padding:10px 13px;border-top:1px solid #f0ece5;vertical-align:top;color:var(--ink2)}
+td b{color:var(--ink)}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;background:#f0ece5;padding:1px 6px;border-radius:4px;color:var(--sea)}
+a{color:var(--sea)}
+
+/* must-book cards */
+.mb{border-radius:11px;border:1px solid var(--line);background:var(--paper2);margin-bottom:11px;overflow:hidden}
+.mb.crit{border-color:var(--red);border-width:2px}
+.mb.done{border-color:var(--grn);border-width:2px}
+.mb-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 15px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.mb.crit .mb-h{background:var(--red-l)}
+.mb.done .mb-h{background:var(--grn-l)}
+.mb.warn .mb-h{background:var(--gld-l)}
+.mb-h .n{font-weight:800;font-size:15px}
+.mb-h .n span{display:block;font-size:11.5px;font-weight:600;color:var(--ink3);margin-top:1px}
+.mb-h .s{font-size:11px;font-weight:800;padding:3px 10px;border-radius:99px;background:#fff;white-space:nowrap}
+.mb.crit .mb-h .s{color:var(--red)}
+.mb.done .mb-h .s{color:var(--grn)}
+.mb.warn .mb-h .s{color:var(--gld)}
+.mb-b{padding:12px 15px;font-size:13.5px;color:var(--ink2)}
+.mb-b .why{background:#f7f5f0;border-left:3px solid var(--line2);padding:8px 11px;border-radius:0 6px 6px 0;margin-bottom:10px;font-size:13px}
+.mb.crit .mb-b .why{border-left-color:var(--red);background:var(--red-l);color:#8c2b23}
+.mb-b dl{display:grid;grid-template-columns:76px 1fr;gap:5px 12px}
+.mb-b dt{color:var(--ink3);font-weight:700}
+.mb-b dd b{color:var(--ink)}
+
+.rec{background:var(--paper2);border:1px solid var(--line);border-radius:10px;margin-bottom:13px;overflow:hidden}
+.rec.done{border-color:var(--grn);border-width:2px}
+.rec-h{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:var(--grn-l);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.rec-h .nm{font-weight:800;font-size:15.5px}
+.rec-h .st{font-size:11px;font-weight:800;padding:3px 10px;border-radius:99px;background:#fff;color:var(--grn)}
+.rec dl{display:grid;grid-template-columns:96px 1fr;gap:7px 14px;font-size:13.5px;padding:14px 16px}
+.rec dt{color:var(--ink3);font-weight:700}
+.rec dd{color:var(--ink2);word-break:break-word}
+.rec dd b{color:var(--ink)}
+.rec dd .mono{font-family:ui-monospace,Menlo,monospace;font-weight:800;color:var(--sand);letter-spacing:.06em;font-size:14px}
+
+/* directory */
+.dir{background:var(--paper2);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.dir .dn{font-weight:800;font-size:15px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.dir .dz{font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:99px;background:var(--sea-l);color:var(--sea)}
+.dir .dz.s{background:var(--sand-l);color:var(--sand)}
+.dir .dz.o{background:#eeeae2;color:var(--ink3)}
+.dir .da{font-size:12.5px;color:var(--ink2);margin-top:4px}
+.dir .dm{font-size:12.5px;color:var(--ink3);margin-top:3px}
+.dir .dm b{color:var(--ink2)}
+
+.q{display:inline-block;font-size:11px;font-weight:700;background:#eeeae2;color:var(--ink3);padding:2px 7px;border-radius:5px;margin-left:4px}
+
+footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--ink3)}
+
+@media(max-width:600px){
+  .row{grid-template-columns:58px 1fr;gap:0 10px}
+  .bdg{grid-column:2;justify-self:start;margin-top:5px}
+  .rec dl,.mb-b dl{grid-template-columns:78px 1fr}
+}
+@media print{body{background:#fff}.tabs{display:none}.panel{display:block!important;page-break-before:always}.sheet,.mb,.dir{page-break-inside:avoid}}
+
+/* restaurant cards */
+.mealhd{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:26px 0 6px;padding:10px 14px;background:linear-gradient(90deg,#f5f2ec,transparent 75%);border-left:3px solid var(--line2);border-radius:0 8px 8px 0}
+.mealhd .mh-d{font-weight:800;font-size:17px;white-space:nowrap}
+.mealhd .mh-d span{font-size:12px;font-weight:600;color:var(--ink3);margin-left:3px}
+.mealhd .mh-t{font-size:13.5px;color:var(--ink2);display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.mealnote{font-size:13px;color:var(--ink2);padding:0 4px 10px;line-height:1.6}
+.rgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;margin-bottom:8px}
+.rcard{display:grid;grid-template-columns:104px 1fr;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper2)}
+.rpic{display:flex;align-items:center;justify-content:center;border-right:1px solid var(--line)}
+.rpic svg{width:56px;height:56px}
+.rbody{padding:11px 13px;min-width:0}
+.rbody .rn{font-weight:800;font-size:14.5px;line-height:1.4;margin-bottom:2px}
+.rbody .rn .bdg{vertical-align:2px;margin-left:4px}
+.rbody .rc{font-size:11.5px;font-weight:700;color:var(--ink3);letter-spacing:.03em;margin-bottom:7px}
+.rbody .rm{font-size:12.5px;color:var(--ink2);line-height:1.6;margin-bottom:3px}
+.rbody .rm b{color:var(--ink)}
+.rbody .ro{background:#f7f5f0;border-radius:6px;padding:5px 8px;margin:5px 0}
+.rbody .rw{color:var(--sea);font-weight:600}
+.rbody .rx{color:#8c2b23}
+.rbody .lks{margin-top:7px}
+@media(max-width:520px){.rcard{grid-template-columns:74px 1fr}.rpic svg{width:40px;height:40px}}
+/* overview */
+.ovwrap{overflow-x:auto;box-shadow:inset -14px 0 12px -12px rgba(0,0,0,.13);-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:12px;background:var(--paper2);margin-bottom:22px}
+table.ov{border-collapse:collapse;width:100%;min-width:1080px;font-size:12.5px}
+table.ov th{background:#f5f2ec;color:var(--ink3);font-size:11px;font-weight:800;letter-spacing:.1em;padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+table.ov td{padding:10px 10px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.55}
+table.ov tr:last-child td{border-bottom:0}
+table.ov td.d{white-space:nowrap;font-weight:800;font-size:14px}
+table.ov td.d span{display:block;font-size:11px;font-weight:600;color:var(--ink3)}
+table.ov td .zn{display:inline-block;font-size:11px;font-weight:800;padding:2px 8px;border-radius:99px;white-space:nowrap}
+.z-n{background:var(--sea-l);color:var(--sea)}
+.z-s{background:var(--sand-l);color:var(--sand)}
+.z-i{background:var(--gld-l);color:var(--gld)}
+.z-m{background:var(--vio-l);color:var(--vio)}
+table.ov td b{color:var(--ink)}
+table.ov .fx{color:var(--grn);font-weight:800}
+table.ov .fr{color:var(--ink3)}
+table.ov tr.mv td{background:#fdfaf2}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;font-size:12px;color:var(--ink2);align-items:center}
+@media(max-width:700px){table.ov{min-width:900px}}
+</style></head>
+<body>
+
+<div class="masthead">
+  <div class="wrap">
+    <div class="kicker">BALI · INDONESIA</div>
+    <h1>峇里島 8 天 8 夜行程表</h1>
+    <div class="dates">2026 年 8 月 19 日（三） — 8 月 27 日（四）</div>
+    <div class="pax">CHI YI AN ＆ ZHANG JIA XIANG ｜ Bocoa Villas（Pererenan 5 晚）→ The Form（Uluwatu 3 晚）</div>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tabs-inner">
+    <button class="tab on" data-p="over">🗺️ 總覽</button>
+    <button class="tab" data-p="todo">⚠️ 還缺什麼</button>
+    <button class="tab" data-p="itin">📋 逐日行程</button>
+    <button class="tab" data-p="conf">✅ 已訂資料</button>
+    <button class="tab" data-p="food">🍽️ 吃什麼</button>
+    <button class="tab" data-p="dir">📍 地點速查</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ================= OVER ================= -->
+<div class="panel on" id="over">
+  <div class="lead">一張表看完 9 天。<b>綠色＝已訂已付</b>，灰色＝自由安排。<br>
+    左邊第二欄是<b>人在哪一區</b>——前 5 天全在北端 Canggu／Pererenan，8/24 之後全在南端 Uluwatu，只搬一次家。<br>
+    最右邊是<b>吃什麼</b>，標 <span class="bdg b-todo">必訂位</span> 的要先訂。<b>每一餐都有三個選擇，細節和照片在「🍽️ 吃什麼」那一頁。</b></div>
+
+  <div class="legend">
+    <span class="zn z-n">北端</span> Canggu · Pererenan · Seseh · Tabanan　
+    <span class="zn z-s">南端</span> Uluwatu · Pecatu　
+    <span class="zn z-i">離島</span> Nusa Penida　
+    <span class="zn z-m">移動日</span>
+  </div>
+
+  <div class="legend" style="color:var(--ink3);font-size:11.5px">📱 手機上這張表可以<b>左右滑動</b></div>
+  <div class="ovwrap">
+  <table class="ov">
+    <thead><tr><th style="width:62px">日期</th><th style="width:84px">區域</th><th style="width:22%">🌅 早上</th><th style="width:22%">☀️ 中午·下午</th><th style="width:22%">🌆 晚上</th><th style="width:23%">🍽️ 吃什麼</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="d">8/19<span>週三</span></td>
+        <td><span class="zn z-m">飛行→北</span></td>
+        <td><b>09:10 桃園起飛</b><br><span class="fx">✅ CI771</span></td>
+        <td><b>14:35 DPS 落地</b><br>入境 → Grab 進 Pererenan<br><span class="fr">車程 90–120 分</span></td>
+        <td><b>17:00 Bocoa 入住</b><br>Pepito 超市採買・附近晚餐<br><span class="fr">日落 18:18</span></td>
+      
+        <td><b>晚</b> Warung Ayu 烤魚<br><span class="fr">走路 2 分 · 走進去</span></td>
+      </tr>
+      <tr>
+        <td class="d">8/20<span>週四</span></td>
+        <td><span class="zn z-n">Canggu</span></td>
+        <td><b>09:00 Reload Sanctuary</b><br>健身俱樂部・訓練<br><span class="fr">現場買日票 IDR 549,000</span></td>
+        <td><b>恢復區泡整個下午</b><br>頂樓泳池・冰浴・桑拿・蒸氣<br><span class="fr">館內有餐廳</span></td>
+        <td><span class="fr">留白 · 早點睡</span></td>
+      
+        <td><b>午</b> Paed Thai（Reload 對面）<br><b>晚</b> Zali 中東烤肉<br><span class="bdg b-open">建議訂</span></td>
+      </tr>
+      <tr>
+        <td class="d">8/21<span>週五</span></td>
+        <td><span class="zn z-n">Pererenan<br>Seseh</span></td>
+        <td><span class="fr">留白</span><br>想再練一場就去 RITE Bali</td>
+        <td><span class="fr">留白 · 住處泳池放空</span><br><span class="fr">晚上有 2.5 小時聲療，別排滿</span></td>
+        <td><b>🔔 17:30–20:00 Udara</b><br>Surya 量子聲音圓頂・日落月升場<br><span class="fx">✅ 已付 IDR 1,000,000</span></td>
+      
+        <td><b>午</b> LOOP Café（標蛋白質）<br><b>晚 20:15</b> HOME by Chef Wayan<br><span class="bdg b-todo">必訂位</span></td>
+      </tr>
+      <tr>
+        <td class="d">8/22<span>週六</span></td>
+        <td><span class="zn z-n">Tabanan</span></td>
+        <td><span class="fr">留白 · 睡到自然醒</span><br><span class="fr">白天園區很曬，別早去</span></td>
+        <td><b>15:30 Nuanu 創意園區</b><br>巨型雕塑・生態步道・羊駝<br><span class="fx">✅ 門票已含在導覽裡</span></td>
+        <td><b>🎆 18:30 光影導覽</b><br>竹塔光影秀 → Aurora 光影步道<br>Luna 海邊酒吧晚餐<br><span class="fx">✅ 已付 IDR 1,000,000</span></td>
+      
+        <td><b>午</b> Boheme 泳池畔<br><b>晚</b> Nusantara（園區內九島菜）<br><span class="bdg b-open">建議訂</span></td>
+      </tr>
+      <tr>
+        <td class="d">8/23<span>週日</span></td>
+        <td><span class="zn z-n">Berawa</span></td>
+        <td><b>11:00 Nirvana Life</b><br>健身房或團體課<br><span class="fx">✅ 單日票已付</span></td>
+        <td><b>整天泡在同一個場地</b><br>館內午餐 → 冰浴・桑拿・兩個泳池<br><span class="fr">今天只有一趟車</span></td>
+        <td><b>🌊 18:30 漂浮聲療</b><br>躺在泳池的漂浮床上聽頌缽<br><span class="fx">✅ 已付 Rp 1,617,000</span></td>
+      
+        <td><b>午</b> Nirvana Life 館內<br><b>晚 19:45</b> LONGTIME<br><span class="bdg b-todo">必訂位 · 走 100m</span></td>
+      </tr>
+      <tr class="mv">
+        <td class="d">8/24<span>週一</span></td>
+        <td><span class="zn z-m">北 → 南</span></td>
+        <td><b>11:00 Bocoa 退房</b><br><span class="fr">⚠️ 是 11:00 不是 12:00</span></td>
+        <td><b>11:30 南下 Uluwatu</b><br><span class="fr">車程 1h45　13:00 前務必上路</span><br>15:00 The Form 入住 → 海灘</td>
+        <td><b>🔥 18:00 Kecak 火舞</b><br>斷崖神廟・人聲合唱・結尾火舞<br><span class="fx">✅ Klook 已付 NT$544</span></td>
+      
+        <td><b>午 13:15</b> Bukit Cafe（好放行李）<br><b>晚 19:45</b> The Temple Bar &amp; Grill<br><span class="bdg b-open">建議訂 · ⚠️ 別訂 19:15</span></td>
+      </tr>
+      <tr>
+        <td class="d">8/25<span>週二</span></td>
+        <td><span class="zn z-i">Nusa Penida</span></td>
+        <td><b>06:00 出門 → 08:00 開船</b><br><b>09:40 🦖 Kelingking 斷崖</b><br><span class="fx">✅ 船票＋包車已付</span></td>
+        <td><b>西線四站</b><br>Paluang → Broken Beach → Angel's Billabong → Crystal Bay</td>
+        <td><b>16:00 回程船</b><br><span class="fr">18:30–19:00 到家 · 留白</span></td>
+      
+        <td><b>午</b> Amok Sunset（島上）<br><span class="bdg b-todo">必訂位</span><br><b>晚</b> Warung Local 或叫外送</td>
+      </tr>
+      <tr>
+        <td class="d">8/26<span>週三</span></td>
+        <td><span class="zn z-s">Uluwatu</span></td>
+        <td><span class="fr">留白 · 昨天很累，刻意不排</span></td>
+        <td><span class="fr">Jimbaran spa（可選，累了就砍）</span><br>15:45 回住處換裝<br><span class="fr">⚠️ Smart-casual</span></td>
+        <td><b>🍽️ 17:30 The Cave</b><br>2.5 萬年天然洞穴・7 道套餐<br><span class="fx">✅ 已付 IDR 3,720,760</span></td>
+      
+        <td><b>午 14:00</b> Bambu Cafe 輕食<br><span class="fr">標營養素，晚上要吃 7 道</span><br><b>晚</b> ✅ The Cave 已訂</td>
+      </tr>
+      <tr class="mv">
+        <td class="d">8/27<span>週四</span></td>
+        <td><span class="zn z-m">南 → 機場</span></td>
+        <td><span class="fr">留白 · 收行李</span><br><b>11:00 The Form 退房</b></td>
+        <td><b>11:30 去機場</b><br><b>15:55 DPS 起飛</b><br><span class="fx">✅ CI772</span></td>
+        <td><b>21:20 抵達桃園</b></td>
+      
+        <td><b>早 09:00</b> Suka Espresso<br><span class="fr">同一條路 · 09:00 前到免排隊</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>📌 一句話看重點</h2>
+  <div class="tblwrap">
+  <table>
+    <thead><tr><th style="width:150px">主題</th><th>說明</th></tr></thead>
+    <tbody>
+      <tr><td><b>行程節奏</b></td><td><b>五天北端 → 三天南端</b>，只搬一次家（8/24）。全程<b>不南北跑</b></td></tr>
+      <tr><td><b>已訂已付</b></td><td>機票 · 兩間住宿 · 簽證 · 觀光稅 · <b>7 個活動</b>（Udara／Nuanu／Nirvana ×2／Kecak／The Cave／跳島船票＋包車）</td></tr>
+      <tr><td><b>最重的一天</b></td><td><b>8/25 跳島</b>：06:00 出門、19:00 到家。前後兩天的早上都刻意留白</td></tr>
+      <tr><td><b>最需要準時</b></td><td>8/25 <b>07:00 換船票</b>（起航前 1 小時截止）· 8/24 <b>13:00 前上路</b>南下 · 8/26 <b>17:30 The Cave</b></td></tr>
+      <tr><td><b>交通</b></td><td>全部 Grab／計程車自理，不包車。只有 8/25 早上那趟要前一晚先約好</td></tr>
+      <tr><td><b>吃飯</b></td><td>14 餐都排好了，每餐 3 個選擇。<b>要先訂的只有 5 家</b>：HOME by Chef Wayan（8/21）· LONGTIME（8/23）· Amok Sunset（8/25）· Taru（8/20，選配）· Hippie Fish（8/21 備案）</td></tr>
+      <tr><td><b>還缺</b></td><td>All Indonesia 入境卡（8/16 起）· The Form 智慧鎖密碼 · Nuanu 導覽集合地點</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<!-- ================= TODO ================= -->
+<div class="panel" id="todo">
+  <div class="lead">大的都訂完了——<b>機票、兩間住宿、簽證、六個活動全部到位</b>。<br><b>全部訂完了。</b>剩下 <b>3 件</b>都是手續：一件 8/16 才能做，兩件是出發前跟人確認一下。<br><b>交通全部改叫 Grab／計程車，已從清單移除。</b></div>
+
+  <h2>🔴 這幾天要做</h2>
+
+  <div class="mb crit">
+    <div class="mb-h"><div class="n">① All Indonesia 入境卡 × 2<span>海關＋健康＋檢疫合一</span></div><div class="s">8/16 起</div></div>
+    <div class="mb-b">
+      <div class="why"><b>只能在抵達前 72 小時內送出，8/16（日）之前填會被系統拒絕。</b>每人一張、含小孩都要，<b>免費</b>。填完會收到 QR Code。</div>
+      <dl><dt>官網</dt><dd><b>allindonesia.imigrasi.go.id</b></dd>
+        <dt>會問</dt><dd>護照資料 · Email 與電話 · 抵離日期 · 簽證狀態 · 航班資訊 · 住宿地點 · 健康與海關申報<span class="q">⏳ 可能要登錄手機 IMEI</span></dd>
+        <dt>⚠️ 不要填</dt><dd><b>ecd.beacukai.go.id</b>——那個現在只給陸路邊境和出境用，空運已改用上面這個</dd>
+        <dt>⚠️ 假網站</dt><dd>官方<b>免費</b>。任何 .com／.org 收費的「Indonesia arrival card」都不是官方</dd></dl>
+      <div class="lks"><a class="lk web" href="https://allindonesia.imigrasi.go.id" target="_blank">🌐 官方入境卡</a></div>
+    </div>
+  </div>
+
+  <h2>🟢 兩個小確認</h2>
+
+  <div class="mb">
+    <div class="mb-h"><div class="n">② 聯絡 The Form 房東<span>8/24 入住</span></div><div class="s">出發前一週</div></div>
+    <div class="mb-b">
+      <div class="why"><b>The Form 是智慧鎖入住、沒有人接待。</b>密碼要提前拿，不然 15:00 到了進不去。</div>
+      <dl><dt>要問</dt><dd>1. 智慧鎖密碼與入住流程<br>2. <b>能不能 13:30 提早入住</b>（你們 13:15 就會到 Uluwatu 附近）<br>3. 行李能不能先寄放</dd>
+        <dt>管道</dt><dd>Airbnb App 訊息（確認碼 <b>HMM•••••TN</b>）</dd></dl>
+    </div>
+  </div>
+
+  <div class="mb warn">
+    <div class="mb-h"><div class="n">③ 問 Nuanu 導覽的集合地點<span>8/22 18:30 出發</span></div><div class="s">出發前一天</div></div>
+    <div class="mb-b">
+      <div class="why">票上<b>沒有寫集合地點</b>。園區 44 公頃、只能搭接駁車移動，當天才找一定來不及。</div>
+      <dl><dt>要問</dt><dd>1. Multimedia Tour <b>18:30 在哪裡集合</b><br>2. 要提早幾分鐘到<br>3. 從 Nuanu Parking 1 怎麼過去</dd>
+        <dt>管道</dt><dd>園方 WhatsApp <b>+62 811-3887-8899</b>（附上訂單 672-MGK•••XX）</dd></dl>
+      <div class="lks"><a class="lk wa" href="https://wa.me/6281138878899?text=Hello%2C%20I%20have%20a%20booking%20for%20the%20Nuanu%20Multimedia%20Tour%20on%2022%20August%202026%20(order%20672-MGK•••XX%2C%202%20guests).%20Where%20exactly%20is%20the%2018%3A30%20tour%20meeting%20point%2C%20and%20how%20early%20should%20we%20arrive%3F%20We%20will%20come%20by%20car%20to%20Nuanu%20Parking%201.%20Thank%20you." target="_blank">💬 一鍵發訊息</a></div>
+    </div>
+  </div>
+
+  <h2>🟦 不用訂 · 現場就好</h2>
+  <div class="tblwrap">
+  <table>
+    <thead><tr><th style="width:200px">項目</th><th>說明</th></tr></thead>
+    <tbody>
+      <tr><td><b>8/20 Reload Sanctuary</b></td><td>Day Pass IDR 549,000，官網公開價，現場買</td></tr>
+      <tr><td><b>8/21 早上健身房</b></td><td>RITE Bali IDR 500,000（含稅、官網公開）／Bali Social Club IDR 400,000。<b>那天晚上已經有 2.5 小時聲療，想省就直接跳過</b></td></tr>
+      <tr><td><b>8/22 Luna Beach Club</b></td><td>一般入場約 IDR 130,000／人（含 1 杯調酒），先到先坐。想要日床看日落才需要訂位</td></tr>
+      <tr><td><b>所有餐廳（除了 The Cave）</b></td><td>Canggu 和 Uluwatu 餐廳密度很高，現場找就好</td></tr>
+      <tr><td><b>全部交通</b></td><td><b>Grab／Gojek／計程車自理</b>，不包車。三個時段要留意，見下面那張表</td></tr>
+      <tr><td><b>景點門票</b></td><td>Padang Padang、烏魯瓦圖神廟、Kelingking 等，現場付現金</td></tr>
+      <tr><td><b>8/26 Jimbaran spa</b></td><td>可選項目，累了就砍</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>🚕 叫車：三個要留意的時段</h2>
+  <div class="tip" style="border:1px solid var(--line);border-radius:9px;margin-bottom:12px">Canggu、Uluwatu、Sanur 平常叫 Grab 都沒問題。<b>下面三段是這趟唯一有風險的</b>，不是叫不到，是「可能要等」——提早 20–30 分鐘開始叫就好。</div>
+  <div class="tblwrap">
+  <table>
+    <thead><tr><th style="width:120px">時段</th><th style="width:180px">路線</th><th>狀況與對策</th></tr></thead>
+    <tbody>
+      <tr><td><b>8/19 15:30</b></td><td>DPS 機場 → Pererenan</td><td>機場的 Grab <b>不能在航廈門口上車</b>，要拖行李走到指定接送區，還有 IDR 10,000–12,000 出場費。旺季等 20–40 分。<br>👉 <b>出關前就先叫</b>，或直接走機場排班計程車櫃檯（Bluebird 是最安全的一家）</td></tr>
+      <tr><td><b>8/25 06:00</b></td><td>Uluwatu → Sanur 碼頭</td><td><b>這段最需要注意。</b>清晨的 Uluwatu 線上司機少，等不到就會趕不上 08:00 的船。<b>已經把船改到 08:00，出門時間從 05:15 挪到 06:00</b>，叫車難度差很多。<br>👉 <b>對策一：</b>前一晚請住處幫你約好隔天早上的車<br>👉 <b>對策二：</b>Grab 有預約功能<span class="q">⏳ 峇里島清晨時段是否開放不確定，8/24 晚上先試訂看看</span><br>👉 <b>對策三：</b>05:45 就開始叫（車程 45–55 分，07:00 前到碼頭就夠）</td></tr>
+      <tr><td><b>8/25 17:30</b></td><td>Sanur 碼頭 → Uluwatu</td><td>下船時碼頭外會有一群司機喊價，Grab 也叫得到但要走出碼頭區。這段車程尖峰 90–120 分。<br>👉 不趕時間，比價再上車就好。<b>先問死總價，不要跳表</b></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>💵 現金準備</h2>
+  <div class="tblwrap">
+  <table>
+    <thead><tr><th style="width:110px">日期</th><th style="width:150px">兩人約</th><th>用在哪</th></tr></thead>
+    <tbody>
+      <tr><td><b>8/24</b></td><td>IDR 350,000</td><td>神廟入場 60,000×2 · 停車 5,000 · Padang Padang 30,000×2 · 零用。<b>神廟停車場旁有 ATM</b></td></tr>
+      <tr><td><b>8/25</b></td><td>IDR 400,000</td><td>上島費 25,000×2 · Kelingking 25,000×2 · Broken Beach／Angel's Billabong 0–20,000 · Crystal Bay 10,000–25,000 · 午餐<br><b>⚠️ 在 Sanur 碼頭的 ATM 先領好，島上幾乎沒有 ATM、多數店家不收卡</b></td></tr>
+      <tr><td>其他天</td><td>零用</td><td>Nuanu 接駁車可能收 20,000、停車費、小吃</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>🛬 8/19 抵達 DPS 流程</h2>
+  <div class="tblwrap">
+  <table>
+    <thead><tr><th style="width:60px"></th><th style="width:160px">關卡</th><th>要出示什麼</th></tr></thead>
+    <tbody>
+      <tr><td><b>1</b></td><td>入境審查</td><td>你們的 e-VOA 上印著<b>「可使用自動通關閘門」</b>——掃護照資料頁、看鏡頭，約 15–30 秒。<b>不會蓋貼紙</b></td></tr>
+      <tr><td><b>2</b></td><td>提領行李</td><td>約 15–25 分</td></tr>
+      <tr><td><b>3</b></td><td>觀光稅查驗</td><td>出示 <b>LoveBali QR</b></td></tr>
+      <tr><td><b>4</b></td><td>海關</td><td>出示 <b>All Indonesia 入境卡 QR</b>，沒申報走綠線</td></tr>
+      <tr><td><b>5</b></td><td>出關</td><td>司機在入境大廳舉牌等</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="tip" style="border:1px solid var(--line);border-radius:9px">
+    <b>手機裡存三張截圖</b>（機場網路很不穩，不要只靠 Email）：<br>
+    ① <b>e-VOA PDF</b>（兩人各一張）　② <b>入境卡 QR</b>　③ <b>觀光稅 QR</b><br>
+    再加：住宿地址、回程機票確認信。<b>各印一份紙本備用。</b><br>
+    ⚠️ 第 3、4 關順序各家說法不一，都在提領行李和出關之間，跟著指標走。
+  </div>
+</div>
+<!-- ================= ITIN ================= -->
+<div class="panel" id="itin">
+  <div class="lead">
+    每天分 <b>🌅 早上</b> ／ <b>☀️ 中午‧下午</b> ／ <b>🌆 晚上</b>。沒排的標「留白」。<br>
+    綠色 <span class="bdg b-done">已訂</span> ＝ 完全不用管；紅色 <span class="bdg b-todo">待訂</span> ＝ 還要處理；<span class="bdg b-cash">帶現金</span> ＝ 當天現場付現。
+  </div>
+
+  <!-- 8/19 -->
+  <div class="sheet">
+    <div class="sheet-h"><div class="dnum"><div class="d1">8/19</div><div class="d2">週三</div></div>
+      <div class="dinfo"><div class="th">抵達峇里島</div><div class="sb">落地 → 進 Pererenan，不排行程</div></div>
+      <div class="stay">Bocoa 1/5</div></div>
+
+    <div class="seg"><div class="seg-h">🌅 早上</div>
+      <div class="row"><div class="tme">09:10</div><div class="body"><div class="pl">台北桃園 T1 起飛</div><div class="ds">CI771 · 訂位代號 CM••••D · 飛行 5h25m · 含餐</div></div><span class="bdg b-done">已訂</span></div>
+    </div>
+
+    <div class="seg"><div class="seg-h">☀️ 中午 · 下午</div>
+      <div class="row"><div class="tme">14:35</div><div class="body"><div class="pl">DPS 機場落地</div><div class="ds">入境流程看「⚠️ 還缺什麼」最後那張表。<b>自動通關 → 領行李 → 觀光稅 QR → 海關 QR</b></div>
+        <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Ngurah%20Rai%20International%20Airport%20Bali" target="_blank">📍 Google Map</a></div></div><span class="bdg b-done">已訂</span></div>
+      <div class="row drive"><div class="tme">15:30</div><div class="body"><div class="pl">🚗 機場 → Bocoa Villas　旺季 <b>90–120 分</b></div>
+        <div class="ds">15:30 出關正好撞上 16:00–19:00 尖峰。<br>⚠️ <b>機場 Grab 不能在門口上車</b>——要走到指定接送區，另有 IDR 10,000–12,000 出場費，旺季等 20–40 分。<b>出關前就先叫</b>，或走排班計程車櫃檯（Bluebird）。<br>行情 IDR 300,000–450,000 · 預計 17:00–18:00 到住處</div></div><span class="bdg b-self">Grab</span></div>
+    </div>
+
+    <div class="seg"><div class="seg-h">🌆 晚上</div>
+      <div class="row"><div class="tme">17:00</div><div class="body"><div class="pl">Bocoa Villas Check-in</div><div class="ds">Jalan Dalem Warung, Pererenan 80351</div>
+        <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Jalan%20Dalem%20Warung%2C%20Pererenan%2C%20Bali%2080351" target="_blank">📍 Google Map</a></div></div><span class="bdg b-done">已訂</span></div>
+      <div class="row"><div class="tme">19:00</div><div class="body"><div class="pl">晚餐 · 買補給</div><div class="ds">日落 18:18。<b>Pepito Market</b> 就在旁邊，先買水和早餐備品<br>步行圈：Crate Cafe、K&amp;A Grill、Butter Protein Club、ESKQ Steak House</div>
+        <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Pepito%20Market%20Pererenan" target="_blank">📍 Pepito 超市</a></div></div><span class="bdg b-self">自理</span></div>
+    </div>
+    <div class="gap-note ok">今天沒有要訂的。到了機場自己叫車，記得先走到 Grab 指定接送區。</div>
+  </div>
+
+  <!-- 8/20 -->
+  <div class="sheet">
+    <div class="sheet-h"><div class="dnum"><div class="d1">8/20</div><div class="d2">週四</div></div>
+      <div class="dinfo"><div class="th">Reload Sanctuary｜健身俱樂部</div><div class="sb">訓練＋恢復，全天泡在同一個場地</div></div>
+      <div class="stay">Bocoa 2/5</div></div>
+
+    <div class="seg"><div class="seg-h">🌅 早上</div>
+      <div class="row drive"><div class="tme">08:40</div><div class="body"><div class="pl">🚗 住處 → Reload　約 12–15 分</div></div><span class="bdg b-self">Grab</span></div>
+      <div class="row"><div class="tme">09:00<br>–13:00</div><div class="body"><div class="pl">Reload Sanctuary｜訓練</div>
+        <div class="ds"><b>📖 這是什麼：</b>Canggu 的高級健身俱樂部。頂樓露天訓練區，樓下有泳池、冰浴、桑拿、蒸氣室、冥想區和餐廳。一張日票待整天。<br>
+        Jl. Canggu Padang Linjong No.8 · 每日 06:00–22:00 · <b>Day Pass IDR 549,000／人，現場買</b></div>
+        <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Reload%20Sanctuary%20Canggu%20Bali" target="_blank">📍 Google Map</a>
+          <a class="lk web" href="https://www.reloadsanctuary.com/" target="_blank">🌐 官網</a></div></div><span class="bdg b-cash">現場買</span></div>
+    </div>
+
+    <div class="seg"><div class="seg-h">☀️ 中午 · 下午</div>
+      <div class="row"><div class="tme">13:00</div><div class="body"><div class="pl">午餐</div><div class="ds">館內有餐廳，也可走出去吃 Canggu</div></div><span class="bdg b-self">自理</span></div>
+      <div class="row"><div class="tme">14:30<br>–17:30</div><div class="body"><div class="pl">恢復時段</div><div class="ds">頂樓泳池與日床 · 冰浴 · 冷水池 · 桑拿 · 蒸氣室（日票已含）</div></div><span class="bdg b-info">已含</span></div>
+    </div>
+
+    <div class="seg"><div class="seg-h">🌆 晚上</div>
+      <div class="row blank"><div class="tme">17:30<br>起</div><div class="body"><div class="pl">留白</div><div class="ds">日落 18:18 · 晚餐現場找 · 早點回去睡</div></div><span class="bdg b-self">自由</span></div>
+    </div>
+    <div class="gap-note ok">今天完全不用預約，走進去買日票就好。</div>
+  </div>
+
+  <!-- 8/21 -->
+  <div class="sheet">
+    <div class="sheet-h"><div class="dnum"><div class="d1">8/21</div><div class="d2">週五</div></div>
+      <div class="dinfo"><div class="th">Udara 圓頂聲療</div><div class="sb">白天整段留白，17:30 一場 2.5 小時</div></div>
+      <div class="stay">Bocoa 3/5</div></div>
+
+    <div class="seg"><div class="seg-h">🌅 早上</div>
+      <div class="row blank"><div class="tme">–12:30</div><div class="body"><div class="pl">留白（想練再練）</div>
+        <div class="ds">昨天已經練整天，今天不排也完全合理。真的想再練一場：<b>RITE Bali</b>（Jl. Pantai Pererenan No.158 · 06:00–22:00 · <b>IDR 500,000／人，官網公開已含稅</b>）——現場買，不用預約</div>
+        <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=RITE%20Bali%20Jl%20Pantai%20Pererenan" target="_blank">📍 RITE Bali</a>
+          <a class="lk web" href="https://ritebali.com/pages/memberships" target="_blank">🌐 官網價格</a></div></div><span class="bdg b-self">自由</span></div>
+    </div>
+
+    <div class="seg"><div class="seg-h">☀️ 中午 · 下午</div>
+      <div class="row blank"><div class="tme">12:30<br>–16:45</div><div class="body"><div class="pl">留白</div><div class="ds">午餐、回住處休息、泳池放空。<b>晚上有 2.5 小時的聲療，下午別排滿</b></div></div><span class="bdg b-self">自由</span></div>
+      <div class="row drive"><div class="tme">17:00</div><div class="body"><div class="pl">🚗 Pererenan → Udara（Seseh）　約 10–15 分</div><div class="ds"><b>17:15 到，留 15 分鐘報到</b></div></div><span class="bdg b-self">Grab</span></div>
+    </div>
+
+    <div class="seg"><div class="seg-h">🌆 晚上</div>
+      <div class="row"><div class="tme">17:30<br>–20:00</div><div class="body"><div class="pl">🔔 Sacred Sounds of Surya · Chandra Awakening</div>
+        <div class="ds"><b>📖 這是什麼：</b>日落月升版本，150 分鐘，三段式——<br>
+        <b>① Crystal Dome</b>：聲音與頻率的藝術裝置 → 在餘暉與初升月光下編織祈願手環 → 小儀式<br>
+        <b>② Quantum Dome</b>：圓頂裡佈滿星辰般的微光，<b>坐著</b>聽印尼樂手現場演奏<br>
+        <b>③ 主體</b>：<b>躺下</b>，頌缽、鑼與療癒樂器的完整聲浸<br>
+        Jl. Pura Kramat, Seseh · 已付 IDR 1,000,000／2 人 · 收據 <b>3307•••44</b><br>
+        ⚠️ 建議穿好穿脫的衣服、帶條薄外套（躺 1 小時會冷）</div>
+        <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Udara%20Bali%20Seseh" target="_blank">📍 Google Map</a></div></div><span class="bdg b-done">已訂已付</span></div>
+      <div class="row"><div class="tme">20:15<br>起</div><div class="body"><div class="pl">晚餐</div><div class="ds">回 Pererenan 約 10–15 分，步行圈餐廳都還開著</div></div><span class="bdg b-self">自理</span></div>
+    </div>
+    <div class="gap-note ok">今天沒有必訂項目。全天北端，只有一趟來回車。</div>
+  </div>
+
+  <!-- 8/22 -->
+  <div class="sheet">
+    <div class="sheet-h"><div class="dnum"><div class="d1">8/22</div><div class="d2">週六</div></div>
+      <div class="dinfo"><div class="th">Nuanu Creative City｜藝術園區</div><div class="sb">上午留白，下午才出門</div></div>
+      <div class="stay">Bocoa 4/5</div></div>
+
+    <div class="seg"><div class="seg-h">🌅 早上</div>
+      <div class="row blank"><div class="tme">–12:00</div><div class="body"><div class="pl">留白</div><div class="ds">睡到自然醒。<b>白天園區很曬，評論一致建議別中午去</b></div></div><span class="bdg b-self">自由</span></div>
+    </div>
+
+    <div class="seg"><div class="seg-h">☀️ 中午 · 下午</div>
+      <div class="row drive"><div class="tme">14:15</div><div class="body"><div class="pl">🚗 Bocoa → Nuanu　官方說 20 分，<b>旺季週六抓 30–60 分</b></div><div class="ds">走 Jl. By Pass Tanah Lot。<b>導航設「Nuanu Parking 1」</b>，不要設 Luna（Google 定位是錯的）</div></div><span class="bdg b-self">Grab</span></div>
+      <div class="row"><div class="tme">15:30</div><div class="body"><div class="pl">Nuanu 入園</div>
+        <div class="ds"><b>📖 這是什麼：</b>44 公頃創意園區，藝術裝置、生態步道、海邊酒吧、羊駝農場、表演場地全在一起。<b>園內只能搭電動接駁車移動</b>（憑票免費），私家車不能進。<br>
+        Jl. Pantai Nyanyi, Beraban, Tabanan · 園區 07:45–23:00<br>
+        ✅ 票已訂：<b>672-MGK•••XX-001／002</b>（Multimedia Tour，已含入園）· 大門掃 QR · <b>票要留到離園</b></div>
+        <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Nuanu%20Parking%201%20Beraban%20Tabanan%20Bali" target="_blank">📍 Nuanu Parking 1</a>
+          <a class="lk wa" href="https://wa.me/6281138878899" target="_blank">💬 園方 WhatsApp</a></div></div><span class="bdg b-done">已訂</span></div>
+      <div class="row"><div class="tme">15:45<br>–18:20</div><div class="body"><div class="pl">白天自由逛</div>
+        <div class="ds"><b>Earth Sentinels</b>｜巨大人形雕塑，園區最有名的拍照點（晚上會打燈）<br>
+        <b>Odyssey Garden</b>｜花園步道、5 公里生態步道<br>
+        <b>Pacha Alpaca</b>｜羊駝互動區，餵食 IDR 150,000 含入園、有羊駝咖啡廳，10:00–18:00<br>
+        ⚠️ Magic Garden 蝴蝶園 16:00 截止，趕不上</div></div><span class="bdg b-info">已含</span></div>
+    </div>
+
+    <div class="seg"><div class="seg-h">🌆 晚上</div>
+      <div class="row"><div class="tme">17:00<br>–18:20</div><div class="body"><div class="pl">Luna Beach Club｜海邊酒吧餐廳（走進去就好）</div>
+        <div class="ds"><b>📖 這是什麼：</b>園區內最大的海邊竹構酒吧，面西看海，有泳池、滑水道、黑沙灘。<br>
+        當天節目：17:00 Sunset DJ → 18:19 日落 → <b>18:30 THK 竹塔光影秀</b><br>
+        一般入場約 IDR 130,000／人（含 1 杯調酒）· ⚠️ 泳池 18:00 關 · ⚠️ 評論一致說餐點貴、味道普通<br>
+        👉 <b>不用訂位</b>——只是進去喝一杯等光影秀，日床最低消 1,700,000++ 不划算</div>
+        <div class="lks"><a class="lk wa" href="https://wa.me/6281936005511" target="_blank">💬 WhatsApp</a></div></div><span class="bdg b-cash">現場付</span></div>
+      <div class="row"><div class="tme">18:30<br>–19:30</div><div class="body"><div class="pl">🎆 Nuanu Multimedia Tour｜晚間導覽</div>
+        <div class="ds"><b>📖 這是什麼：</b>1 小時徒步導覽，有導遊，走 <b>THK 竹塔光影秀 → Earth Sentinels 巨型雕塑 → Aurora 光影步道</b>。<br>
+        <b>Aurora Media Park</b>＝1 公里森林步道，8 組會感應你、隨動作變化的 AI 燈光裝置，走完約 40 分鐘（19:00 開放，已含在導覽裡）<br>
+        ✅ 已付 IDR 1,000,000／2 人 · 訂單 672-MGK•••XX<br>
+        ⚠️ <b>票上沒寫集合地點</b>——出發前一天用上面的園方 WhatsApp 先問清楚</div></div><span class="bdg b-done">已訂已付</span></div>
+      <div class="row"><div class="tme">19:30<br>–21:00</div><div class="body"><div class="pl">晚餐｜Luna Happy Hour ＋ 現場演出</div>
+        <div class="ds">Luna 19:00–20:00 買一送一，主舞台 19:00–21:00 薩克斯風＋現場歌手<br>Luna 開到 22:00 · Restaurant 369 到 21:00</div></div><span class="bdg b-self">自理</span></div>
+      <div class="row"><div class="tme">21:30</div><div class="body"><div class="pl">回住處</div><div class="ds"><b>⚠️ 回程的車要提前叫好</b>——晚上從園區出來很難叫車</div></div><span class="bdg b-self">Grab</span></div>
+    </div>
+    <div class="tip"><b>要帶：</b>現金（接駁車可能收 IDR 20,000、停車費）· 手機燈（夜間步道照明不足）· 防蚊液（紅樹林旁）· 泳衣（想下 Luna 泳池要 18:00 前）</div>
+    <div class="gap-note">今天還缺：<b>WhatsApp 問園方 18:30 導覽的集合地點</b>（→ 見「還缺什麼」第 ③ 項）</div>
+  </div>
+
+  <!-- 8/23 -->
+  <div class="sheet">
+    <div class="sheet-h"><div class="dnum"><div class="d1">8/23</div><div class="d2">週日</div></div>
+      <div class="dinfo"><div class="th">整天泡在 Nirvana Life</div><div class="sb">一個地方待到底：練 → 吃 → 泡 → 按摩 → 躺水上</div></div>
+      <div class="stay">Bocoa 5/5</div></div>
+
+    <div class="seg"><div class="seg-h">🌅 早上</div>
+      <div class="row blank"><div class="tme">–10:30</div><div class="body"><div class="pl">留白</div><div class="ds">睡飽再出門。<b>今天只有一個地點，不用趕</b></div></div><span class="bdg b-self">自由</span></div>
+      <div class="row drive"><div class="tme">10:45</div><div class="body"><div class="pl">🚗 Pererenan → Nirvana Life（Berawa）　約 10 分</div><div class="ds">Jl. Pantai Berawa No.8　<b>今天就只有這一趟車</b></div></div><span class="bdg b-self">Grab</span></div>
+      <div class="row"><div class="tme">11:00</div><div class="body"><div class="pl">🎫 報到｜Life Pass 單日票</div>
+        <div class="ds">已付 <b>Rp 2,102,100</b>（訂單 #114•••）。含：<b>最多 3 堂團體課</b> · 健身房 · <b>完整恢復區</b>（乾式桑拿、蒸氣室、按摩浴缸、紅外線桑拿、冰浴、冷水池、members lounge）· <b>兩個泳池</b> · Clubhouse ·<b> 50 分鐘按摩</b><br>
+        場館 06:00–23:00，餐廳、lounge、泳池都在裡面</div>
+        <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Nirvana%20Life%20Bali%20Jl%20Pantai%20Berawa%20No%208" target="_blank">📍 Google Map</a>
+          <a class="lk wa" href="https://wa.me/6281803980800" target="_blank">💬 WhatsApp</a></div></div><span class="bdg b-done">已訂已付</span></div>
+    </div>
+
+    <div class="seg"><div class="seg-h">☀️ 中午 · 下午</div>
+      <div class="row"><div class="tme">11:00<br>–13:00</div><div class="body"><div class="pl">🏋️ 健身房 · 或挑一堂團體課</div><div class="ds">重訓、有氧、功能性訓練區。一天可以上 3 堂課</div></div><span class="bdg b-info">已含</span></div>
+      <div class="row"><div class="tme">13:00<br>–14:15</div><div class="body"><div class="pl">午餐｜館內餐廳</div><div class="ds">Café &amp; Restaurant——macro-aware 餐點和冷壓果汁，從早餐供應到晚餐</div></div><span class="bdg b-self">自理</span></div>
+      <div class="row"><div class="tme">14:15<br>–16:30</div><div class="body"><div class="pl">♨️ 恢復區 · 泳池</div><div class="ds">冰浴、冷水池、乾式桑拿、紅外線桑拿、蒸氣室、按摩浴缸、25 公尺泳池、稻田景泳池</div></div><span class="bdg b-info">已含</span></div>
+      <div class="row"><div class="tme">16:30<br>–17:30</div><div class="body"><div class="pl">♨️ 繼續泡 · 或上第三堂課</div>
+        <div class="ds">按摩不做了。這一個小時就留給恢復區和泳池。<br>
+        💡 <b>但按摩的錢已經付了</b>（含在 #114••• 的 Single Day Pass + Massage 裡，不可退不可轉讓）——<b>當天到現場再決定用不用都可以</b>，反正不用另外花錢</div></div><span class="bdg b-info">已含</span></div>
+      <div class="row blank"><div class="tme">17:30<br>–18:00</div><div class="body"><div class="pl">留白</div><div class="ds">Members lounge／Clubhouse 休息、換裝</div></div><span class="bdg b-self">自由</span></div>
+    </div>
+
+    <div class="seg"><div class="seg-h">🌆 晚上</div>
+      <div class="row"><div class="tme">18:30<br>–19:30</div><div class="body"><div class="pl">🌊 Let it Flow 漂浮聲療｜New Pool</div>
+        <div class="ds"><b>📖 這是什麼：</b><b>躺在泳池裡的漂浮床墊上</b>，療癒師演奏頌缽和罕見樂器。四要素：水流、呼吸法、聲療、自然。<br>
+        已付 <b>Rp 1,617,000</b>／2 人（訂單 #114•••）<br>
+        ⚠️ <b>提前 5–10 分鐘到，開始後不得入場</b> · 帶泳衣和換洗衣物</div></div><span class="bdg b-done">已訂已付</span></div>
+      <div class="row"><div class="tme">19:45<br>起</div><div class="body"><div class="pl">晚餐</div><div class="ds">館內餐廳供應到晚上，或走出去吃 Berawa。回 Pererenan 約 10 分</div></div><span class="bdg b-self">自理</span></div>
+    </div>
+    <div class="tip"><b>今天只有一趟車、一個地點。</b>Pererenan → Berawa 10 分，晚上再 10 分回來。<b>兩張單都付清了，什麼都不用準備。</b></div>
+    <div class="gap-note ok">今天完全沒有要處理的事。帶泳衣、換洗衣物和運動鞋就好。</div>
+  </div>
+
+  <!-- 8/24 -->
+  <div class="sheet mv">
+    <div class="sheet-h"><div class="dnum"><div class="d1">8/24</div><div class="d2">週一</div></div>
+      <div class="dinfo"><div class="th">搬家日 ＋ 烏魯瓦圖火舞</div><div class="sb">北 → 南。下午：海灘 → 斷崖步道 → 18:00 火舞</div></div>
+      <div class="stay">The Form 1/3</div></div>
+
+    <div class="seg"><div class="seg-h">🌅 早上</div>
+      <div class="row"><div class="tme">11:00</div><div class="body"><div class="pl">Bocoa Villas 退房</div><div class="ds"><b>⚠️ 退房是 11:00，不是 12:00</b></div></div><span class="bdg b-done">已訂</span></div>
+      <div class="row drive"><div class="tme">11:30</div><div class="body"><div class="pl">🚗 Pererenan → Uluwatu　約 1 小時 45 分</div><div class="ds"><b>13:00 前務必上路</b>，15:00 後會變 2.5–3 小時。Grab 長程行情 IDR 400,000–550,000<br>💡 帶行李的長程，出發前 20 分鐘就開始叫，Pererenan 這一帶車少</div></div><span class="bdg b-self">Grab</span></div>
+    </div>
+
+    <div class="seg"><div class="seg-h">☀️ 中午 · 下午</div>
+      <div class="row"><div class="tme">13:15<br>–14:45</div><div class="body"><div class="pl">Uluwatu 午餐</div><div class="ds">入住 15:00，先在附近吃、行李放車上<br>步行圈：Milk &amp; Madu、Hatch Uluwatu、Nana Thai Kitchen、La Cima Bali</div></div><span class="bdg b-self">自理</span></div>
+      <div class="row"><div class="tme">15:00</div><div class="body"><div class="pl">The Form Check-in</div><div class="ds">Banjar Labuhan Sait, Uluwatu 80361 · 確認碼 <b>HMM•••••TN</b><br><b>⚠️ 智慧鎖入住，密碼要先跟房東拿</b></div>
+        <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Banjar%20Labuhan%20Sait%2C%20Uluwatu%2C%20Bali%2080361" target="_blank">📍 Google Map</a></div></div><span class="bdg b-done">已訂</span></div>
+      <div class="row"><div class="tme">15:30<br>–16:20</div><div class="body"><div class="pl">Padang Padang Beach｜岩洞小沙灘</div>
+        <div class="ds"><b>📖 這是什麼：</b>從岩石縫隙的樓梯鑽下去、穿過石洞才看到沙灘。海灣小、水是綠松石色，浪平緩可以游泳。《享受吧！一個人的旅行》拍攝地。<br>
+        離住處只要 2–4 分鐘 · 07:00–19:00 · 門票 IDR 15,000–30,000 現金 · ⚠️ 樓梯上有猴子<br>
+        想安靜的話換 <b>Thomas Beach</b>（走 5 分樓梯、人少、完全免費，離住處 4–6 分）</div>
+        <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Padang%20Padang%20Beach%20Bali" target="_blank">📍 Padang Padang</a>
+          <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Thomas%20Beach%20Uluwatu%20Bali" target="_blank">📍 Thomas Beach</a></div></div><span class="bdg b-cash">帶現金</span></div>
+    </div>
+
+    <div class="seg"><div class="seg-h">🌆 晚上</div>
+      <div class="row drive"><div class="tme">16:30</div><div class="body"><div class="pl">🚗 → 烏魯瓦圖神廟　約 10 分</div><div class="ds"><b>⚠️ 絕對不要晚於 16:30 出發</b>——17:00 後 Bukit 半島會嚴重塞車</div></div><span class="bdg b-self">Grab</span></div>
+      <div class="row"><div class="tme">16:50</div><div class="body"><div class="pl">烏魯瓦圖神廟｜斷崖上的印度教神廟</div>
+        <div class="ds"><b>📖 這是什麼：</b>蓋在 70 公尺高懸崖邊、11 世紀就存在的印度教神廟。內殿只有信徒能進，遊客走的是<b>沿著斷崖的步道</b>——那條步道才是重點，來回 35–45 分鐘。<br>
+        入場 <b>IDR 60,000／人現金</b> ＋ 停車 5,000 · <b>只收現金</b>，停車場旁有 ATM · 紗籠免費借<br>
+        ⚠️ <b>約 650 隻猴子，一天偷 5–10 支手機</b>——太陽眼鏡收進包包、別戴帽子和垂墜耳環<br>
+        ⚠️ 步道很多路段沒有欄杆或欄杆很矮</div>
+        <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Pura%20Luhur%20Uluwatu" target="_blank">📍 Google Map</a></div></div><span class="bdg b-cash">帶現金</span></div>
+      <div class="row"><div class="tme">17:30</div><div class="body"><div class="pl">進場卡位</div>
+        <div class="ds"><b>不劃位、先到先坐</b>，可容納 1,200–1,400 人 · 👉 <b>最佳位置：正中央最上排</b>（看得到表演也看得到日落，背後有靠）<br>⚠️ 場內<b>沒有小販、沒有廁所</b>——先上廁所、先買水。石階很硬，帶件外套墊著</div></div><span class="bdg b-info">參考</span></div>
+      <div class="row"><div class="tme">18:00<br>–19:00</div><div class="body"><div class="pl">🔥 Kecak 火舞</div>
+        <div class="ds"><b>📖 這是什麼：</b>約 70 個男人圍成圈，<b>用「恰、恰、恰」的人聲當唯一配樂</b>（完全沒有樂器），演出《羅摩衍那》猴神救公主的故事。<b>火的部分只有結尾幾分鐘</b>。<br>
+        節奏：18:00–18:20 金色夕陽（戴太陽眼鏡）→ <b>18:20 日落，橘紅天空當背景</b> → 18:40 全黑 → <b>18:45–18:55 火舞</b><br>
+        ✅ Klook 已付 · 訂單 <b>VRE•••946</b> · NT$544／2 人<br>
+        🍸 <b>含熱帶誘惑酒吧免費 2 杯雞尾酒</b>（在神廟停車場區，散場順路去喝）<br>
+        ⚠️ <b>票不含神廟入場</b>，IDR 60,000 現金／人另外付</div></div><span class="bdg b-done">已訂已付</span></div>
+      <div class="row"><div class="tme">19:45</div><div class="body"><div class="pl">兌換免費調酒 · 晚餐 · 或去斷崖酒吧</div>
+        <div class="ds">⚠️ <b>晚餐訂 19:45 不要訂 19:15</b>——神廟官方明講 17:00 後嚴重塞車、19:00 後離場可能要兩小時<br>🍸 先去 <b>Tropical Temptation Bar</b> 把 Klook 送的 2 杯調酒喝掉，別忘了<br>👉 <b>餐廳建議看「🍽️ 吃什麼」那一頁</b><br>
+        <b>Single Fin</b>｜蓋在懸崖上的看海酒吧，<b>週一開到 22:00 且很安靜</b>（週日才是派對日）· 免入場費 · 調酒約 IDR 150,000</div>
+        <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Single%20Fin%20Uluwatu%20Bali" target="_blank">📍 Single Fin</a></div></div><span class="bdg b-self">自理</span></div>
+      <div class="row"><div class="tme">21:30</div><div class="body"><div class="pl">早睡</div><div class="ds">明天 06:00 出門</div></div><span class="bdg b-info">參考</span></div>
+    </div>
+    <div class="tip"><b>今天現金約 IDR 350,000：</b>神廟 60,000×2 · 停車 5,000 · Padang Padang 30,000×2 · 零用。神廟停車場旁有 ATM。</div>
+    <div class="gap-note">今天還缺：<b>The Form 智慧鎖密碼</b>（→ 見「還缺什麼」第 ② 項）</div>
+  </div>
+
+  <!-- 8/25 -->
+  <div class="sheet s">
+    <div class="sheet-h"><div class="dnum"><div class="d1">8/25</div><div class="d2">週二</div></div>
+      <div class="dinfo"><div class="th">努沙佩尼達跳島</div><div class="sb">最長的一天：西線四站，重點是 09:40 的 Kelingking</div></div>
+      <div class="stay">The Form 2/3</div></div>
+
+    <div class="seg"><div class="seg-h">🌅 早上</div>
+      <div class="row drive"><div class="tme">06:00</div><div class="body"><div class="pl">🚗 The Form → Sanur Harbour　<b>45–55 分</b>（清晨路空）</div>
+        <div class="ds">👉 <b>改搭 08:00 的船，比原本晚 45 分鐘出門。</b>06:00 的 Uluwatu 叫車比 05:15 容易得多，這也是全程叫車風險最高的一段<br>
+        👉 <b>前一晚（8/24）還是先做兩件事：</b>① 請住處幫忙約隔天早上的車　② 試試 Grab 的預約功能<span class="q">⏳ 清晨時段是否開放不確定</span><br>
+        👉 都不行的話 <b>05:45 就開始叫</b>——車程只要 45–55 分，07:00 前到碼頭就夠<br>
+        走 <b>Bali Mandara 跨海高速</b>避開 Jimbaran 和機場路段，過路費 IDR 14,000<b>只能刷電子票卡</b>，上車前先問司機有沒有</div></div><span class="bdg b-self">Grab</span></div>
+      <div class="row"><div class="tme">07:00</div><div class="body"><div class="pl">Sanur Harbour｜跳島碼頭 · 換實體票</div>
+        <div class="ds">Jl. Matahari Terbit, Sanur Kaja · 新碼頭航廈，有冷氣候船室<br>
+        ⚠️ <b>各家船公司櫃檯散落在碼頭四周、有些藏在小咖啡店裡</b>，換票起航前 60 分截止——<b>07:00 到剛好，不要更晚</b>。走到登船處平均再 5 分鐘<br>
+        💵 <b>航廈有 ATM，今天的現金在這裡領好</b>——島上幾乎沒有 ATM、多數店家不收卡</div>
+        <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Sanur%20Harbour%20Jl%20Matahari%20Terbit%20Bali" target="_blank">📍 Google Map</a></div></div><span class="bdg b-cash">領現金</span></div>
+      <div class="row"><div class="tme">08:00</div><div class="body"><div class="pl">快艇出發 · 航程約 45–60 分</div>
+        <div class="ds"><b>Tanis 快船</b> · ✅ 已訂已付 · 訂單 <b>GBG•••003</b> · NT$942／2 人 · 停靠 Banjar Nyuh（西岸，離景點最近）<br>
+        <b>Grand Tanis 22.5m × 6m、186 人、雙層甲板</b>——這條線規格查得到最大最寬的一艘，在浪裡最穩<br>
+        👉 <b>坐船中段到偏後、下層，看得到地平線。絕對不要坐船頭。</b>暈船藥出發前 30–60 分鐘先吃<br>
+        ⚠️ 多數快艇<b>沒有冷氣</b>（開窗，訂單條款也明講可能會熱）、<b>座位間距小</b> · 每人 2 件行李／30 公斤</div>
+        <div class="lks"><a class="lk web" href="https://www.klook.com/zh-TW/activity/45954-ferry-ticket-nusa-penida/" target="_blank">🎫 Klook 船票</a></div></div><span class="bdg b-done">已訂已付</span></div>
+      <div class="row"><div class="tme">08:55</div><div class="body"><div class="pl">抵達 Banjar Nyuh 碼頭 · 繳上島費</div>
+        <div class="ds"><b>上島費 IDR 25,000／人</b>，現金或 QRIS，碼頭櫃檯繳<br>司機在<b>碼頭售票處</b>等——先跟司機書面確認接人地點</div></div><span class="bdg b-cash">帶現金</span></div>
+      <div class="row"><div class="tme">09:10</div><div class="body"><div class="pl">會合司機</div><div class="ds">Banjar Nyuh 港口<b>售票處</b>，找<b>拿著 Klook 標誌</b>的代表。訂單登記的領取時間是 <b>09:00</b>，<b>司機最多等到 09:30</b><br>👉 <b>上車就跟司機講：先去 Kelingking，要趕在人潮前面</b><br>司機／車牌<b>出發前一天</b>會給 · 供應商 WhatsApp <b>+62 812-3754-0199</b></div></div><span class="bdg b-done">已訂已付</span></div>
+      <div class="row"><div class="tme">09:40<br>–10:45</div><div class="body"><div class="pl">🦖 Kelingking Beach｜霸王龍斷崖 · 觀景台</div>
+        <div class="ds"><b>📖 這是什麼：</b>一道向海延伸的斷崖，形狀像趴著的霸王龍，是峇里島最有名的一張照片。<br>
+        👉 <b>今天最重要的一件事就是這個時間點。</b>10:30 之後這裡就變動物園、拍照要排隊——你們 <b>09:40 到</b>，還在人潮前面，光線也比正午柔和<br>
+        👉 <b>那張照片在崖頂就拍得到</b>，下不下沙灘跟拍照無關<br>
+        ⚠️ <b>灘上 2023 年起禁止游泳</b>（2025/10 有遊客拍照被浪捲走身亡）· 步道口有會搶東西的猴子<br>
+        門票約 IDR 25,000／人現金 · 那座玻璃電梯 2025/10 已被下拆除令，確定不會啟用</div>
+        <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Kelingking%20Beach%20Nusa%20Penida" target="_blank">📍 Google Map</a></div></div><span class="bdg b-cash">帶現金</span></div>
+      <div class="row"><div class="tme">🔀 選項</div><div class="body"><div class="pl">要下切沙灘的話 → 09:40–12:00</div>
+        <div class="ds"><b>到現場再決定，不用先想。</b>下去 20 分、<b>上來 30 分</b>，156 階水泥階後接無標示土石路＋竹製扶手，最陡處 70–80°。<br>
+        <b>穿好走的鞋</b>（不能夾腳拖，石灰岩很滑）· <b>帶水</b>，沙灘上什麼設施都沒有<br>
+        👉 <b>下切的話就砍掉最後的 Crystal Bay</b>，其他照走，時間剛好</div></div><span class="bdg b-open">現場決定</span></div>
+    </div>
+
+    <div class="seg"><div class="seg-h">☀️ 中午 · 下午</div>
+      <div class="row"><div class="tme">10:50<br>–11:20</div><div class="body"><div class="pl">Paluang Cliff｜帕魯昂懸崖</div>
+        <div class="ds"><b>📖 這是什麼：</b>從側面看 Kelingking 的「手臂」，還有一座<b>做成汽車形狀的廟</b>（Pura Car）。停車後走 2 分鐘就到。<br>
+        👉 <b>離 Kelingking 只要 5 分鐘車程、幾乎沒人</b>——順道點裡 CP 值最高的一個，也是拍另一個角度的好地方</div>
+        <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Pura%20Paluang%20Nusa%20Penida" target="_blank">📍 Google Map</a></div></div><span class="bdg b-cash">帶現金</span></div>
+      <div class="row"><div class="tme">11:50<br>–13:00</div><div class="body"><div class="pl">Broken Beach ＋ Angel's Billabong</div>
+        <div class="ds"><b>📖 Broken Beach</b>｜塌陷成圓形的海蝕拱，海水從天然石拱流進來，崖頂繞一圈約 15 分鐘。有時從崖上看得到魔鬼魚<br>
+        <b>📖 Angel's Billabong</b>｜就在隔壁 100 公尺。退潮時岩石凹槽積出一池清澈海水<br>
+        👉 <b>提早到也是為了避開 11:00–15:00 的遊覽車潮</b><br>
+        ⚠️ <b>Angel's Billabong 只有退潮才值得停</b>——早上請司機看一下當天潮汐<br>
+        ⚠️ <b>兩個都禁止下水</b>，2023 年有致命意外，浪會毫無預警灌進來<br>
+        這條路以前是全島最爛的，現在已經翻新</div>
+        <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Broken%20Beach%20Nusa%20Penida" target="_blank">📍 Broken Beach</a>
+          <a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Angel%27s%20Billabong%20Nusa%20Penida" target="_blank">📍 Angel's Billabong</a></div></div><span class="bdg b-cash">帶現金</span></div>
+      <div class="row"><div class="tme">13:40<br>–14:20</div><div class="body"><div class="pl">午餐</div><div class="ds">往 Crystal Bay 方向（車程約 40 分），那一帶有小吃店</div></div><span class="bdg b-self">自理</span></div>
+      <div class="row"><div class="tme">14:20<br>–15:00</div><div class="body"><div class="pl">Crystal Bay｜白沙灣（第 4 站）</div>
+        <div class="ds"><b>📖 這是什麼：</b>島上少數水清、浪穩、<b>可以真的下水</b>的沙灘。有躺椅和小吃店，泡一下、喝杯冷的收尾。<br>
+        ⚠️ <b>絕對不要游過灣裡那排木船的界線</b>——右側有淺礁，中央岩島方向有危險水道<br>
+        👉 <b>如果早上下切了 Kelingking，這站就砍掉</b>，直接回碼頭</div>
+        <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Crystal%20Bay%20Nusa%20Penida" target="_blank">📍 Google Map</a></div></div><span class="bdg b-cash">帶現金</span></div>
+      <div class="row drive"><div class="tme">15:00</div><div class="body"><div class="pl">🚗 → Banjar Nyuh 碼頭　約 30 分</div><div class="ds"><b>15:30 到碼頭</b>，16:00 開船，留 30 分鐘緩衝<br>⚠️ 包車<b>超時 IDR 70,000／小時</b>，現金付司機</div></div><span class="bdg b-done">已訂已付</span></div>
+    </div>
+
+    <div class="seg"><div class="seg-h">🌆 晚上</div>
+      <div class="row"><div class="tme">16:00</div><div class="body"><div class="pl">搭船回 Sanur</div><div class="ds">✅ 訂單上回程已定在 <b>16:00</b>（Banjar Nyuh → 沙努爾）。<b>15:30 前到碼頭</b><br>回程時段風比較強，暈船藥記得再吃一次</div></div><span class="bdg b-done">已訂已付</span></div>
+      <div class="row drive"><div class="tme">17:00</div><div class="body"><div class="pl">🚗 Sanur → The Form　<b>90–120 分</b>（傍晚尖峰）</div><div class="ds">一天最塞的時段，預計 18:30–19:00 到家。<br>下船時碼頭外會有一群司機喊價，Grab 也叫得到但要走出碼頭區。<b>先問死總價、不要跳表</b>，不趕時間可以比一下</div></div><span class="bdg b-self">Grab</span></div>
+      <div class="row blank"><div class="tme">19:00<br>起</div><div class="body"><div class="pl">留白</div><div class="ds">今天很累。晚餐建議住處附近或外送，泡個泳池早點睡</div></div><span class="bdg b-self">自由</span></div>
+    </div>
+    <div class="tip"><b>今天現金約 IDR 450,000（兩人）：</b>上島費 25,000×2 · Kelingking 25,000×2 · Paluang／Broken Beach／Angel's Billabong／Crystal Bay 停車與零星門票 · 午餐 · <b>司機小費 50,000–100,000</b>。<b>在 Sanur 碼頭 ATM 先領好，島上幾乎沒有 ATM、多數店家不收卡。</b></div>
+    <div class="gap-note ok">今天全部訂完了。要帶的：<b>現金 IDR 450,000</b>、好走的鞋、暈船藥、防曬。</div>
+  </div>
+
+  <!-- 8/26 -->
+  <div class="sheet s">
+    <div class="sheet-h"><div class="dnum"><div class="d1">8/26</div><div class="d2">週三</div></div>
+      <div class="dinfo"><div class="th">The Cave 洞穴晚餐</div><div class="sb">全程重頭戲 · 白天整段留白</div></div>
+      <div class="stay">The Form 3/3</div></div>
+
+    <div class="seg"><div class="seg-h">🌅 早上</div>
+      <div class="row blank"><div class="tme">–11:00</div><div class="body"><div class="pl">留白</div><div class="ds">睡到自然醒、住處早餐。<b>昨天跳島很累，今天早上刻意不排</b></div></div><span class="bdg b-self">自由</span></div>
+    </div>
+
+    <div class="seg"><div class="seg-h">☀️ 中午 · 下午</div>
+      <div class="row"><div class="tme">11:00<br>–14:00</div><div class="body"><div class="pl">Jimbaran Spa　<span style="font-size:12px;color:var(--ink3)">（可選，累了就砍）</span></div>
+        <div class="ds"><b>The Calma Spa Bali</b>｜Jl. Uluwatu II No.108X · 每日 11:00–21:00 · <b>Jimbaran 區免費接送</b><span class="q">⏳ 價格未公開，WhatsApp 問</span><br>當天再決定，不用先訂</div>
+        <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=The%20Calma%20Spa%20Bali%20Jimbaran" target="_blank">📍 Google Map</a>
+          <a class="lk wa" href="https://wa.me/6285211681169" target="_blank">💬 WhatsApp</a></div></div><span class="bdg b-self">可現場</span></div>
+      <div class="row"><div class="tme">14:00<br>–15:00</div><div class="body"><div class="pl">午餐（吃輕一點）</div><div class="ds">晚上是 7 道套餐</div></div><span class="bdg b-self">自理</span></div>
+      <div class="row"><div class="tme">15:45<br>–16:50</div><div class="body"><div class="pl">回住處沖澡換裝</div><div class="ds"><b>Smart-casual</b>——禁海灘裝、背心、夾腳拖</div></div><span class="bdg b-info">參考</span></div>
+    </div>
+
+    <div class="seg"><div class="seg-h">🌆 晚上</div>
+      <div class="row drive"><div class="tme">17:00</div><div class="body"><div class="pl">🚗 The Form → The Edge Bali　約 10–15 分</div><div class="ds"><b>建議 17:15 前抵達</b></div></div><span class="bdg b-self">Grab</span></div>
+      <div class="row"><div class="tme">17:30<br>–20:00</div><div class="body"><div class="pl">🍽️ The Cave｜洞穴無菜單料理</div>
+        <div class="ds"><b>📖 這是什麼：</b>2013 年蓋別墅時挖到的<b>2.5 萬年天然洞穴</b>，走隱藏樓梯下到地底用餐。四周鐘乳石岩壁，用餐時<b>牆上有光影投影秀</b>。吃完可戴頭燈探索部分洞穴。<b>全場只有 22 席。</b><br>
+        Jl. Pura Goa Lempeh, Pecatu · 確認碼 <b>2AMO••••X9WX</b> · 2 大人 · <b>7 道經典套餐</b> ＋ 蛋糕與鮮花安排 · 約 2–2.5 小時<br>
+        ✅ 已付 <b>IDR 3,720,760</b>（8/4）· ⚠️ <b>沒有電梯</b>，要走樓梯下去</div>
+        <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=The%20Edge%20Bali%20Jl%20Pura%20Goa%20Lempeh%20Pecatu" target="_blank">📍 Google Map</a>
+          <a class="lk wa" href="https://wa.me/6282144632077" target="_blank">💬 WhatsApp</a></div></div><span class="bdg b-done">已訂已付</span></div>
+      <div class="row blank"><div class="tme">20:15<br>起</div><div class="body"><div class="pl">留白</div><div class="ds">回住處，泳池收尾。最後一晚</div></div><span class="bdg b-self">自由</span></div>
+    </div>
+    <div class="gap-note ok">今天沒有必訂項目。<span class="q">⏳ The Cave 尾款官方未載明，帶卡以防現場還要補</span></div>
+  </div>
+
+  <!-- 8/27 -->
+  <div class="sheet s">
+    <div class="sheet-h"><div class="dnum"><div class="d1">8/27</div><div class="d2">週四</div></div>
+      <div class="dinfo"><div class="th">送機 · 返台</div><div class="sb">不排行程</div></div>
+      <div class="stay">回程</div></div>
+
+    <div class="seg"><div class="seg-h">🌅 早上</div>
+      <div class="row blank"><div class="tme">–10:45</div><div class="body"><div class="pl">留白</div>
+        <div class="ds">早餐、收行李。想再練一次：<b>Bambu Fitness</b>（CrossFit 場館）就在附近——06:30 開門、單次 IDR 225,000、含冷氣泳池桑拿</div>
+        <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Bambu%20Fitness%20Bali%20Bingin" target="_blank">📍 Bambu Fitness</a></div></div><span class="bdg b-self">自由</span></div>
+      <div class="row"><div class="tme">11:00</div><div class="body"><div class="pl">The Form 退房</div></div><span class="bdg b-done">已訂</span></div>
+    </div>
+
+    <div class="seg"><div class="seg-h">☀️ 中午 · 下午</div>
+      <div class="row drive"><div class="tme">11:30</div><div class="body"><div class="pl">🚗 The Form → DPS 機場　約 40–60 分</div><div class="ds">Grab 行情 IDR 300,000–350,000。<b>11:30 出發，最晚不要拖過 12:00</b></div></div><span class="bdg b-self">Grab</span></div>
+      <div class="row"><div class="tme">12:30</div><div class="body"><div class="pl">抵達機場 T1</div><div class="ds">距起飛 3 小時 25 分，充裕</div></div><span class="bdg b-info">參考</span></div>
+      <div class="row"><div class="tme">15:55</div><div class="body"><div class="pl">DPS 起飛</div><div class="ds">CI772 · 訂位代號 CM••••N</div></div><span class="bdg b-done">已訂</span></div>
+    </div>
+
+    <div class="seg"><div class="seg-h">🌆 晚上</div>
+      <div class="row"><div class="tme">21:20</div><div class="body"><div class="pl">抵達台北桃園 T1</div></div><span class="bdg b-done">已訂</span></div>
+    </div>
+    <div class="gap-note ok">今天沒有要訂的。11:30 叫車就走。</div>
+  </div>
+</div>
+<!-- ================= CONF ================= -->
+<div class="panel" id="conf">
+  <div class="lead">已經完成、<b>不用再管</b>的 <b>14 筆訂單</b>——機票、住宿、簽證、觀光稅、7 個活動，全部付清。<br>
+ <b style="color:var(--red)">🔒 這是可以分享的版本</b>：護照號、簽證號、訂單編號、電話和 Email 都<b>遮起來了</b>（顯示成 <span class="mono">•••</span>）。完整號碼在 Ricky 手上的原始檔。確認碼和金額都在這裡，出發前存成截圖。</div>
+
+  <h2>🛂 簽證</h2>
+
+  <div class="rec done">
+    <div class="rec-h"><span class="nm">🛂 e-VOA · JIA XIANG ZHANG</span><span class="st">已核發</span></div>
+    <dl>
+      <dt>簽證號</dt><dd><span class="mono">Z1B••••415</span></dd>
+      <dt>申請編號</dt><dd><span class="mono">2130826B••••948</span> · 付款收據 <span class="mono">XC••••195</span></dd>
+      <dt>護照</dt><dd><span class="mono">353•••704</span>（效期至 2029/12/04）· 生日 1994/••/••</dd>
+      <dt>核發</dt><dd>2026/8/13 · <b>須於 2026/11/10 前入境</b> · 停留 <b>30 天</b></dd>
+      <dt>自動通關</dt><dd>✅ <b>可使用 autogate</b>（不蓋貼紙）</dd>
+      <dt>印尼地址</dt><dd>JALAN DALEM WARUNG, PERERENAN, MENGWI, KAB. BADUNG, BALI</dd>
+    </dl>
+  </div>
+
+  <div class="rec done">
+    <div class="rec-h"><span class="nm">🛂 e-VOA · YI AN CHI</span><span class="st">已核發</span></div>
+    <dl>
+      <dt>簽證號</dt><dd><span class="mono">Z1B••••388</span></dd>
+      <dt>申請編號</dt><dd><span class="mono">2130826B••••874</span> · 付款收據 <span class="mono">XC••••217</span></dd>
+      <dt>護照</dt><dd><span class="mono">367•••377</span>（效期至 2035/02/04）· 生日 1994/••/••</dd>
+      <dt>核發</dt><dd>2026/8/13 · <b>須於 2026/11/10 前入境</b> · 停留 <b>30 天</b></dd>
+      <dt>自動通關</dt><dd>✅ <b>可使用 autogate</b></dd>
+      <dt>⚠️ 姓名</dt><dd>e-VOA 印 <b>YI AN CHI</b>（名在前），機票是 <b>CHI YIAN</b>。同一個名字、排列不同，這在印尼系統是正常的。<b>但請比對護照上的拼法完全一致</b>——e-VOA 條款要求與護照相符</dd>
+    </dl>
+  </div>
+
+  <div class="rec done">
+    <div class="rec-h"><span class="nm">🎟️ 峇里島觀光稅（Love Bali Levy）× 2</span><span class="st">已繳費</span></div>
+    <dl>
+      <dt>憑證號</dt><dd>JIAXIANG ZHANG　<span class="mono">LVB26•••••L</span><br>YIAN CHI　<span class="mono">LVB26•••••9</span></dd>
+      <dt>金額</dt><dd>IDR 150,000 ＋ 手續費 4,500，每人 154,500 · 兩人共 <b>IDR 309,000</b></dd>
+      <dt>繳費</dt><dd>2026/8/14 11:21（GMT+8）· 信用卡／簽帳卡 · <b>不可退</b></dd>
+      <dt>抵達日</dt><dd><b>2026/8/19</b> · 一趟只收一次</dd>
+      <dt>⚠️ 帶什麼</dt><dd><b>憑證上的 QR Code</b>——入境查驗和部分景點會查。<b>兩張都存成手機截圖，再各印一份紙本</b></dd>
+      <dt>Email</dt><dd>r••••@ricky.tw</dd>
+    </dl>
+  </div>
+
+  <h2>✈️ 機票 · 住宿</h2>
+
+  <div class="rec done">
+    <div class="rec-h"><span class="nm">✈️ 中華航空 · 來回機票</span><span class="st">已出票</span></div>
+    <dl>
+      <dt>訂單</dt><dd>Trip.com <span class="mono">16163•••••••51651</span> · PIN <span class="mono">••••</span> · <b>TWD 41,330</b>（2 位）</dd>
+      <dt>旅客</dt><dd>CHI YIAN · ZHANG JIA XIANG</dd>
+      <dt>去程</dt><dd><b>8/19 CI771</b>　TPE T1 09:10 → DPS T1 14:35　<span class="mono">CM••••D</span></dd>
+      <dt>回程</dt><dd><b>8/27 CI772</b>　DPS T1 15:55 → TPE T1 21:20　<span class="mono">CM••••N</span></dd>
+    </dl>
+  </div>
+
+  <div class="rec done">
+    <div class="rec-h"><span class="nm">🏠 Bocoa Villas · Pererenan（北基地 5 晚）</span><span class="st">已訂</span></div>
+    <dl>
+      <dt>地址</dt><dd>Jalan Dalem Warung, Pererenan, Bali 80351</dd>
+      <dt>房源</dt><dd>Stunning Adobe Architecture Perfect for Photoshoot（Airbnb）</dd>
+      <dt>入住</dt><dd><b>8/19（三）15:00</b></dd>
+      <dt>退房</dt><dd><b>8/24（一）11:00</b>　⚠️ 比一般早一小時</dd>
+    </dl>
+  </div>
+
+  <div class="rec done">
+    <div class="rec-h"><span class="nm">🏠 The Form · Uluwatu（南基地 3 晚）</span><span class="st">已訂</span></div>
+    <dl>
+      <dt>確認碼</dt><dd><span class="mono">HMM•••••TN</span></dd>
+      <dt>地址</dt><dd>The Form, Banjar Labuhan Sait, 南庫塔, 峇里島 80361</dd>
+      <dt>房源</dt><dd>Designer pool villa, quiet lane in Uluwatu · 2 人</dd>
+      <dt>入住</dt><dd><b>8/24（一）15:00</b> · <b>智慧鎖</b>，⚠️ 密碼要先跟房東拿</dd>
+      <dt>退房</dt><dd><b>8/27（四）11:00</b></dd>
+    </dl>
+  </div>
+
+  <div class="rec done">
+    <div class="rec-h"><span class="nm">⛵ 8/25 Tanis 快船 · 沙努爾 ⇄ 佩尼達島（往返）× 2</span><span class="st">已付款</span></div>
+    <dl>
+      <dt>訂單</dt><dd><span class="mono">GBG•••003</span> · Klook · 下單／付款 2026/8/15 11:40</dd>
+      <dt>金額</dt><dd>NT$471 × 2 = <b>NT$942</b>（原價 717／人）· 發票已開立（個人）</dd>
+      <dt>去程</dt><dd><b>8/25（二）08:00</b>　沙努爾港 → 佩尼達島（Banjar Nyuh）· 航程 45–60 分</dd>
+      <dt>回程</dt><dd><b>8/25（二）16:00</b>　Banjar Nyuh → 沙努爾港</dd>
+      <dt>⚠️ 換票</dt><dd><b>要換實體票。</b>去 <b>Sanur Matahari Terbit 海灘的 Tanis 兌換票櫃檯</b>，<b>起飛前 1 小時到</b>（＝07:00），出示 Klook 憑證。換完再走到<b>新沙努爾港</b>候船——<b>售票處到海港有一段路，要留時間</b><br>回程請計程車直接開到<b>佩尼達島 Banjar Nyuh 港</b></dd>
+      <dt>⚠️ 船上</dt><dd>訂單條款明講：<b>多數快艇沒有冷氣，船上可能相當熱</b>；<b>座位緊湊、腿部空間有限</b>。<br>👉 <b>坐船中段到偏後、下層，看得到地平線；絕對不要坐船頭。</b>暈船藥出發前 30–60 分鐘先吃</dd>
+      <dt>含</dt><dd>往返接送票 · 行李寄存 · 供應商保險（不含飯店接送、小費）</dd>
+      <dt>免費取消</dt><dd><b>2026/8/24 00:00（GMT+8）前</b></dd>
+      <dt>提醒</dt><dd>港口網路訊號差，<b>先把憑證下載或截圖</b> · 手機裝好 WhatsApp，供應商用這個聯絡</dd>
+    </dl>
+  </div>
+
+  <h2>🎫 活動</h2>
+
+  <div class="rec done">
+    <div class="rec-h"><span class="nm">🔔 8/21 Udara · Surya Chandra Awakening × 2</span><span class="st">已付款</span></div>
+    <dl>
+      <dt>收據</dt><dd><span class="mono">3307•••44</span>（Momence）</dd>
+      <dt>持票人</dt><dd>jiaxiang zhang · r••••@ricky.tw</dd>
+      <dt>時間</dt><dd><b>2026/8/21（五）17:30–20:00</b>（150 分鐘）</dd>
+      <dt>地點</dt><dd><b>Quantum Sound Dome</b> · Udara Bali, Jl. Pura Kramat, Seseh 80351</dd>
+      <dt>金額</dt><dd>IDR 500,000 × 2 = <b>IDR 1,000,000</b>（含稅）· Xendit 2026/8/13 10:43</dd>
+      <dt>聯絡</dt><dd>WhatsApp <code>+62 878-7779-9970</code>（訂位）／<code>+62 877-6537-7313</code>（前台）</dd>
+    </dl>
+  </div>
+
+  <div class="rec done">
+    <div class="rec-h"><span class="nm">🌈 8/22 Nuanu Multimedia Tour × 2</span><span class="st">已付款</span></div>
+    <dl>
+      <dt>訂單</dt><dd><span class="mono">672-MGK•••XX</span></dd>
+      <dt>票號</dt><dd><b>672-MGK•••XX-001</b>　<b>672-MGK•••XX-002</b></dd>
+      <dt>日期</dt><dd><b>2026/8/22（六）</b>　區域：Nuanu Experience</dd>
+      <dt>每張含</dt><dd>1 × Nuanu 入園票 ＋ 1 × Multimedia Tour　<b>入園票已含，不用再買</b></dd>
+      <dt>金額</dt><dd><b>IDR 1,000,000</b>（500,000 × 2，約 NT$1,798）· 下單 2026/8/11 21:51</dd>
+      <dt>導覽</dt><dd><b>18:30 出發、約 1 小時</b>：THK 竹塔光影秀 → Earth Sentinels → Aurora 光影步道<span class="q">⏳ 集合地點未寫，出發前問園方</span></dd>
+      <dt>入場</dt><dd>大門<b>掃 QR Code</b> · <b>票要留到離開園區</b> · 導航設 <b>Nuanu Parking 1</b></dd>
+      <dt>園方</dt><dd>WhatsApp <code>+62 811-3887-8899</code></dd>
+    </dl>
+  </div>
+
+  <div class="rec done">
+    <div class="rec-h"><span class="nm">🏋️ 8/23 Nirvana Life · Life Pass 單日票（含按摩）× 2</span><span class="st">已付款</span></div>
+    <dl>
+      <dt>訂單</dt><dd><span class="mono">#114•••</span> · Xendit · 2026/8/13</dd>
+      <dt>品項</dt><dd><b>Life Passes — Single Day Pass + Massage × 2</b></dd>
+      <dt>金額</dt><dd>Rp 1,820,000 ＋ 服務費 91,000 ＋ 稅 191,100 = <b>Rp 2,102,100</b></dd>
+      <dt>訂購人</dt><dd>zhang jiaxiang · Taiwan · 0976•••387 · r••••@gmail.com</dd>
+      <dt>含</dt><dd>最多 3 堂團體課 · 健身房 · 完整恢復區（乾式桑拿／蒸氣室／按摩浴缸／紅外線桑拿／冰浴／冷水池／lounge）· 兩個泳池 · Clubhouse · <b>50 分鐘按摩</b></dd>
+      <dt>按摩</dt><dd><b>決定不做了。</b>已付、不可退不可轉讓，當天想用再現場問櫃檯即可</dd>
+      <dt>不含</dt><dd>會員價——漂浮聲療照原價；Life Pass ≠ Membership</dd>
+      <dt>地址</dt><dd>Jl. Pantai Berawa No.8, Canggu · WhatsApp <code>+62 818-0398-0800</code></dd>
+    </dl>
+  </div>
+
+  <div class="rec done">
+    <div class="rec-h"><span class="nm">🌊 8/23 Nirvana Life · Floating Sound Healing × 2</span><span class="st">已付款</span></div>
+    <dl>
+      <dt>訂單</dt><dd><span class="mono">#114•••</span> · 2026/8/13</dd>
+      <dt>品項</dt><dd><b>Floating Sound Healing — 23 August 2026 × 2</b></dd>
+      <dt>金額</dt><dd>Rp 1,400,000 ＋ 服務費 70,000 ＋ 稅 147,000 = <b>Rp 1,617,000</b></dd>
+      <dt>時間</dt><dd><b>18:30–19:30</b> · New Pool</dd>
+      <dt>注意</dt><dd><b>不可退</b> · <b>提前 5–10 分鐘到，開始後不得入場</b> · 帶泳衣與換洗衣物</dd>
+    </dl>
+  </div>
+
+  <div class="rec done">
+    <div class="rec-h"><span class="nm">🚗 8/25 佩尼達島私人包車（9 小時 · 西線）</span><span class="st">已付款</span></div>
+    <dl>
+      <dt>訂單</dt><dd><span class="mono">GSQ•••267</span> · Klook · 付款 2026/8/15 17:23</dd>
+      <dt>金額</dt><dd><b>NT$1,439</b>（原價 1,515）· <b>每輛車</b>不是每人 · 發票已開立</dd>
+      <dt>內容</dt><dd><b>9 小時 · 西佩尼達島 · 1 輛車（1–5 人）· 無加購</b></dd>
+      <dt>領取</dt><dd><b>8/25（二）09:00</b> · <b>Banjar Nyuh 港口售票處</b>，找拿著 <b>Klook 標誌</b>的代表<br>⚠️ <b>司機最多等 30 分鐘</b>（到 09:30），逾時不候且不退款</dd>
+      <dt>行程備註</dt><dd>Kelingking → Broken Beach → Angel's Billabong → Crystal Bay；已請司機<b>先去 Kelingking、10:00 前抵達</b>，並加問 Paluang Cliff；<b>15:30 前回碼頭</b></dd>
+      <dt>含</dt><dd>英語／印尼語司機 · 車 · 油錢 · 保險 · 佩尼達島碼頭免費接送</dd>
+      <dt>不含</dt><dd>導遊 · 景點門票 · 停車費 · <b>上島費 IDR 25,000／人</b> · 小費</dd>
+      <dt>⚠️ 現場加收</dt><dd><b>超時 IDR 70,000／小時</b> · 非服務區域 IDR 100,000 · 00:00–06:00 接送 IDR 250,000　<b>都要現金付司機</b></dd>
+      <dt>免費取消</dt><dd><b>2026/8/24 00:00（GMT+8）前</b></dd>
+      <dt>供應商</dt><dd>WhatsApp <code>+62 812-3754-0199</code>／<code>+62 821-2112-4008</code> · booking@bali-dmc.com · Line <code>csbalimade</code><br>💡 <b>跟 8/24 Kecak 火舞是同一家（bali-dmc）</b>，出發前一天會給司機和車牌</dd>
+    </dl>
+  </div>
+
+  <div class="rec done">
+    <div class="rec-h"><span class="nm">🔥 8/24 Klook · 烏魯瓦圖 Kecak 火舞</span><span class="st">已付款</span></div>
+    <dl>
+      <dt>訂單</dt><dd><span class="mono">VRE•••946</span></dd>
+      <dt>方案</dt><dd><b>【Klook 獨家】成人票特別優惠</b>（熱帶誘惑酒吧免費 2 杯雞尾酒）</dd>
+      <dt>時間</dt><dd><b>2026/8/24（一）18:00</b> · 2 × 成人</dd>
+      <dt>金額</dt><dd><b>NT$544</b>（NT$272 × 2）· 2026/8/9 付款</dd>
+      <dt>免費取消</dt><dd><b>2026/8/23（日）18:00 前</b>（GMT+8）</dd>
+      <dt>不含</dt><dd><b>神廟入場費 IDR 60,000 現金／人</b></dd>
+      <dt>供應商</dt><dd>booking@bali-dmc.com · WhatsApp <code>+62 812-3754-0199</code>／<code>+62 821-2112-4008</code></dd>
+    </dl>
+  </div>
+
+  <div class="rec done">
+    <div class="rec-h"><span class="nm">🍽️ 8/26 The Cave by Chef Ryan Clift</span><span class="st">已付款</span></div>
+    <dl>
+      <dt>確認碼</dt><dd><span class="mono">2AMO••••X9WX</span></dd>
+      <dt>訂位人</dt><dd>jiaxiang zhang · 確認信寄到 r••••@ricky.tw</dd>
+      <dt>時間</dt><dd><b>2026/8/26（三）17:30</b> · 2 位大人</dd>
+      <dt>菜單</dt><dd><b>7 道經典套餐</b>（Rp 2,050 萬++／人）＋ 蛋糕與鮮花 IDR 1,500,000++</dd>
+      <dt>已付</dt><dd><b>IDR 3,720,760</b>（2026/8/4 15:19）<span class="q">⏳ 尾款未載明，帶卡備用</span></dd>
+      <dt>地址</dt><dd>The Edge Bali, Jl. Pura Goa Lempeh, Pecatu · <b>Smart-casual</b>、沒有電梯</dd>
+      <dt>聯絡</dt><dd>WhatsApp <code>+62 821-4463-2077</code> · cave@theedgebali.com</dd>
+    </dl>
+  </div>
+</div>
+<!-- ================= FOOD ================= -->
+<div class="panel" id="food">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="ic-fish" viewBox="0 0 52 52"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 24c6-9 14-13 24-13 7 0 12 3 16 8-4 5-9 8-16 8-10 0-18-4-24-3z"/><path d="M44 19c2-3 4-5 4-8 0 0-5 1-8 5"/><circle cx="34" cy="17" r="1.8" fill="currentColor" stroke="none"/><path d="M14 19c3 2 3 6 0 8"/></g></symbol><symbol id="ic-bowl" viewBox="0 0 52 52"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 24h40c0 10-9 17-20 17S6 34 6 24z"/><path d="M14 24c0-6 5-10 10-10"/><circle cx="21" cy="17" r="3"/><circle cx="30" cy="19" r="2.5"/><circle cx="37" cy="22" r="2"/><path d="M4 41h44"/></g></symbol><symbol id="ic-steak" viewBox="0 0 52 52"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 20c4-8 16-12 26-9 9 3 12 11 8 18-4 8-16 12-25 9-9-3-13-11-9-18z"/><path d="M20 22c4-3 10-4 15-2"/><path d="M18 30c5-3 12-4 18-1"/></g></symbol><symbol id="ic-noodle" viewBox="0 0 52 52"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22h36c0 10-8 18-18 18S8 32 8 22z"/><path d="M16 22c2-6 6-10 10-12M24 22c1-7 4-11 8-14M32 22c1-5 3-8 6-10"/><path d="M6 40h40"/></g></symbol><symbol id="ic-coffee" viewBox="0 0 52 52"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 16h26v14c0 6-5 11-13 11S10 36 10 30V16z"/><path d="M36 20h5a5 5 0 0 1 0 10h-5"/><path d="M8 44h30"/><path d="M18 8c0 3-2 3-2 5M26 8c0 3-2 3-2 5"/></g></symbol><symbol id="ic-rice" viewBox="0 0 52 52"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M26 8l14 24H12L26 8z"/><path d="M8 36h36c0 4-3 6-8 6H16c-5 0-8-2-8-6z"/><circle cx="26" cy="22" r="1.6" fill="currentColor" stroke="none"/><circle cx="21" cy="28" r="1.6" fill="currentColor" stroke="none"/><circle cx="31" cy="28" r="1.6" fill="currentColor" stroke="none"/></g></symbol><symbol id="ic-skewer" viewBox="0 0 52 52"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 44L40 8"/><rect x="19" y="27" width="10" height="10" rx="3" transform="rotate(-35 24 32)"/><rect x="26" y="18" width="10" height="10" rx="3" transform="rotate(-35 31 23)"/><rect x="12" y="36" width="10" height="10" rx="3" transform="rotate(-35 17 41)"/></g></symbol><symbol id="ic-plate" viewBox="0 0 52 52"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="26" cy="26" r="18"/><circle cx="26" cy="26" r="11"/><path d="M21 26c2-4 8-4 10 0"/><circle cx="26" cy="21" r="2" fill="currentColor" stroke="none"/></g></symbol><symbol id="ic-taco" viewBox="0 0 52 52"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 34c0-11 8-19 18-19s18 8 18 19"/><path d="M8 34h36c0 4-3 6-7 6H15c-4 0-7-2-7-6z"/><path d="M15 26c3-2 6-2 9 0M28 24c3-2 6-1 8 1"/></g></symbol><symbol id="ic-sandwich" viewBox="0 0 52 52"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 20l18-9 18 9-18 8-18-8z"/><path d="M8 26l18 8 18-8"/><path d="M8 32l18 8 18-8"/></g></symbol><symbol id="ic-pizza" viewBox="0 0 52 52"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M26 6l18 34c-11 5-25 5-36 0L26 6z"/><circle cx="26" cy="24" r="2.4" fill="currentColor" stroke="none"/><circle cx="19" cy="33" r="2.4" fill="currentColor" stroke="none"/><circle cx="33" cy="33" r="2.4" fill="currentColor" stroke="none"/></g></symbol><symbol id="ic-shrimp" viewBox="0 0 52 52"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 18c10-4 22-2 28 6 5 7 3 15-4 18-6 3-13 1-16-4"/><path d="M36 24c4-2 8-1 10 2"/><circle cx="16" cy="20" r="1.6" fill="currentColor" stroke="none"/><path d="M16 32c-4 2-8 1-10-2"/></g></symbol></defs></svg>
+  <div class="lead"><b>14 餐，每餐三個選擇。</b>🥇 是建議的那家。<br>
+  每一張卡片右下角的 <b>「📷 看照片・評價」</b> 點下去會直接開 Google 地圖——裡面有店家實景和食物照片，可以先看再決定。<br>
+  <span class="q">⏳ 標這個符號的表示我查不到可靠來源，去之前自己再確認一下。</span></div>
+
+  <div class="tip" style="border:1px solid var(--line);border-radius:9px;margin-bottom:18px">
+  <b>⚠️ 先知道這三件事：</b><br>
+  ① <b>8/24 晚餐訂 19:45，不要訂 19:15。</b>烏魯瓦圖神廟官方自己說 17:00 後嚴重塞車、19:00 後離場可能要兩小時。<br>
+  ② <b>Bingin 海灘的店全沒了。</b>2025 年 7 月政府拆除違建 48 棟，Kelly's Warung、Lucky Fish、Didi's Place 全部永久關閉，2027 年中才可能重建。網路上的舊攻略還在推，不要去。<br>
+  ③ <b>Canggu 餐廳汰換很快。</b>出發前一天用 Google 地圖再確認一次營業時間。
+  </div>
+
+  <h2>📋 一張表看完</h2>
+  <div class="ovwrap">
+  <table class="ov">
+    <thead><tr><th style="width:64px">日期</th><th style="width:74px">哪一餐</th><th style="width:86px">區域</th><th>🥇 建議</th><th>🥈 備案</th><th>🥉 第三選擇</th><th style="width:74px">要訂位嗎</th></tr></thead>
+    <tbody>
+      <tr><td class="d">8/19<span>週三</span></td><td><b>晚餐</b><br><span class="fr">19:00</span></td><td><span class="zn z-n">北端</span><br><span class="fr" style="font-size:11px">Pererenan</span></td><td><b>Warung Ayu Ikan Bakar</b><br><span class="fr">金巴蘭式炭烤海鮮</span></td><td><b>Sandwichopedia</b><br><span class="fr">地中海三明治・沙拉</span></td><td><b>Don Juan Mexican</b><br><span class="fr">墨西哥菜</span></td><td><span class="bdg b-self">走進去</span></td></tr>
+      <tr><td class="d">8/20<span>週四</span></td><td><b>午餐</b><br><span class="fr">13:00</span></td><td><span class="zn z-n">北端</span><br><span class="fr" style="font-size:11px">Canggu · Reload 旁</span></td><td><b>Paed Thai Canggu</b><br><span class="fr">泰式</span></td><td><b>RICE Warung Yasa</b><br><span class="fr">印尼 warung</span></td><td><b>⚠️ Crate Cafe｜別去</b><br><span class="fr">咖啡館</span></td><td><span class="bdg b-open">建議訂</span></td></tr>
+      <tr><td class="d">8/20<span>週四</span></td><td><b>晚餐</b><br><span class="fr">18:30</span></td><td><span class="zn z-n">北端</span><br><span class="fr" style="font-size:11px">Pererenan · Canggu</span></td><td><b>Zali</b><br><span class="fr">黎巴嫩・中東烤肉</span></td><td><b>Taru at Regent Bali</b><br><span class="fr">當代印尼・精緻</span></td><td><b>Shelter Restaurant</b><br><span class="fr">地中海・柴燒</span></td><td><span class="bdg b-open">建議訂</span></td></tr>
+      <tr><td class="d">8/21<span>週五</span></td><td><b>午餐</b><br><span class="fr">12:30</span></td><td><span class="zn z-n">北端</span><br><span class="fr" style="font-size:11px">Pererenan</span></td><td><b>LOOP Café</b><br><span class="fr">健康餐・標營養素</span></td><td><b>Warung Babi Guling Swari</b><br><span class="fr">峇里烤乳豬</span></td><td><b>Boheme（Shore Amora）</b><br><span class="fr">現代西式・泳池畔</span></td><td><span class="bdg b-self">走進去</span></td></tr>
+      <tr><td class="d">8/21<span>週五</span></td><td><b>晚餐</b><br><span class="fr">20:15</span></td><td><span class="zn z-n">北端</span><br><span class="fr" style="font-size:11px">Pererenan</span></td><td><b>HOME by Chef Wayan</b><br><span class="fr">現代峇里・主廚料理</span></td><td><b>Hippie Fish</b><br><span class="fr">地中海海鮮・屋頂</span></td><td><b>Fuego</b><br><span class="fr">阿根廷炭烤</span></td><td><span class="bdg b-todo">必訂位</span></td></tr>
+      <tr><td class="d">8/22<span>週六</span></td><td><b>早午餐</b><br><span class="fr">12:00</span></td><td><span class="zn z-n">北端</span><br><span class="fr" style="font-size:11px">Pererenan</span></td><td><b>Boheme（Shore Amora）</b><br><span class="fr">現代西式・泳池畔</span></td><td><b>LOOP Café</b><br><span class="fr">健康餐・標營養素</span></td><td><b>Sana by Numa</b><br><span class="fr">早午餐・手作烘焙</span></td><td><span class="bdg b-open">建議訂</span></td></tr>
+      <tr><td class="d">8/22<span>週六</span></td><td><b>晚餐</b><br><span class="fr">19:30</span></td><td><span class="zn z-n">北端</span><br><span class="fr" style="font-size:11px">Nuanu 園區內</span></td><td><b>Nusantara｜Warung Nine Islands</b><br><span class="fr">九島印尼菜</span></td><td><b>Luna Beach Club｜只喝一杯</b><br><span class="fr">海邊酒吧</span></td><td><b>⚠️ ASH Nuanu</b><br><span class="fr">融合料理</span></td><td><span class="bdg b-open">建議訂</span></td></tr>
+      <tr><td class="d">8/23<span>週日</span></td><td><b>晚餐</b><br><span class="fr">19:45</span></td><td><span class="zn z-n">北端</span><br><span class="fr" style="font-size:11px">Berawa</span></td><td><b>LONGTIME</b><br><span class="fr">現代亞洲・精緻</span></td><td><b>VORE Canggu</b><br><span class="fr">乾式熟成牛排</span></td><td><b>SHUN Omakase</b><br><span class="fr">日式無菜單</span></td><td><span class="bdg b-todo">必訂位</span></td></tr>
+      <tr><td class="d">8/24<span>週一</span></td><td><b>午餐</b><br><span class="fr">13:15</span></td><td><span class="zn z-s">南端</span><br><span class="fr" style="font-size:11px">Uluwatu</span></td><td><b>Bukit Cafe</b><br><span class="fr">澳式咖啡館</span></td><td><b>Suka Espresso</b><br><span class="fr">澳式早午餐</span></td><td><b>Warung Local</b><br><span class="fr">印尼菜</span></td><td><span class="bdg b-self">走進去</span></td></tr>
+      <tr><td class="d">8/24<span>週一</span></td><td><b>晚餐</b><br><span class="fr">19:45</span></td><td><span class="zn z-s">南端</span><br><span class="fr" style="font-size:11px">Uluwatu</span></td><td><b>The Temple Bar & Grill</b><br><span class="fr">炭烤・牛排</span></td><td><b>ZALI Uluwatu</b><br><span class="fr">黎巴嫩烤肉</span></td><td><b>ULU Garden</b><br><span class="fr">當代印尼・現場音樂</span></td><td><span class="bdg b-open">建議訂</span></td></tr>
+      <tr><td class="d">8/25<span>週二</span></td><td><b>午餐</b><br><span class="fr">13:40</span></td><td><span class="zn z-i">離島</span><br><span class="fr" style="font-size:11px">Nusa Penida 島上</span></td><td><b>Amok Sun & Cliff Club</b><br><span class="fr">國際融合・崖上</span></td><td><b>Warnakali Restaurant</b><br><span class="fr">國際・海鮮</span></td><td><b>Warung Tu Pande</b><br><span class="fr">家庭式・炭烤鮮魚</span></td><td><span class="bdg b-todo">必訂位</span></td></tr>
+      <tr><td class="d">8/25<span>週二</span></td><td><b>晚餐</b><br><span class="fr">19:00</span></td><td><span class="zn z-s">南端</span><br><span class="fr" style="font-size:11px">Uluwatu</span></td><td><b>Warung Local</b><br><span class="fr">印尼菜</span></td><td><b>叫外送（GrabFood）</b><br><span class="fr">外送</span></td><td><b>Warung Cenana（WANA）</b><br><span class="fr">峇里 warung</span></td><td><span class="bdg b-self">走進去</span></td></tr>
+      <tr><td class="d">8/26<span>週三</span></td><td><b>午餐</b><br><span class="fr">14:00</span></td><td><span class="zn z-s">南端</span><br><span class="fr" style="font-size:11px">Uluwatu</span></td><td><b>Bambu Cafe</b><br><span class="fr">健康餐・標營養素</span></td><td><b>Brunch Station</b><br><span class="fr">早午餐・有蛋白飲</span></td><td><b>Nourish Cafe</b><br><span class="fr">全食物・輕食</span></td><td><span class="bdg b-self">走進去</span></td></tr>
+      <tr><td class="d">8/27<span>週四</span></td><td><b>早餐</b><br><span class="fr">09:00</span></td><td><span class="zn z-s">南端</span><br><span class="fr" style="font-size:11px">Uluwatu</span></td><td><b>Suka Espresso</b><br><span class="fr">澳式早餐・咖啡</span></td><td><b>Brunch Station</b><br><span class="fr">早午餐</span></td><td><b>Bambu Cafe</b><br><span class="fr">健康餐</span></td><td><span class="bdg b-self">走進去</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="tip" style="margin-bottom:22px"><b>👉 這五家真的建議先訂：</b>
+  <b>HOME by Chef Wayan</b>（8/21）· <b>LONGTIME</b>（8/23）· <b>Taru</b>（8/20，如果要吃）· <b>Amok Sunset</b>（8/25，8 月旺季）· <b>Hippie Fish</b>（8/21 備案）。<br>
+  其他的走進去就好。</div>
+
+  <h2>🍽️ 每一餐的細節</h2>
+  <div class="mealhd"><div class="mh-d">8/19 <span>週三</span></div><div class="mh-t"><b>晚餐</b> · 19:00<span class="zn z-n">北端 Pererenan</span></div></div>
+  <div class="mealnote">落地第一晚，拖著時差。三家都在走路範圍。</div>
+  <div class="rgrid">
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#e6f2f3,#fffefb)"><svg viewBox="0 0 52 52" style="color:#1d6f7a"><use href="#ic-fish"/></svg></div><div class="rbody"><div class="rn">🥇 Warung Ayu Ikan Bakar <span class="bdg b-self">走進去</span></div><div class="rc">金巴蘭式炭烤海鮮</div><div class="rm"><b>📍</b> Jl. Dalem Warung No.3｜就在你們住的巷子</div><div class="rm"><b>🕐</b> ⏳ 營業時間查不到　<b>⭐</b> ⏳ 只有 3 則評價　<b>💵</b> IDR 15–25 萬</div><div class="rm ro"><b>點什麼：</b>整條炭烤魚配參巴醬、sop ayam kampung 土雞湯</div><div class="rm rw">👉 走 2 分鐘就到。烤魚配飯是最省力的高蛋白晚餐</div><div class="rm rx">⚠️ 出門前先打 +62 821-4418-5887 確認有開</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Warung%20Ayu%20Ikan%20Bakar%20Ala%20Jimbaran%20Pererenan" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#e7f4ec,#fffefb)"><svg viewBox="0 0 52 52" style="color:#2f7a4f"><use href="#ic-sandwich"/></svg></div><div class="rbody"><div class="rn">🥈 Sandwichopedia <span class="bdg b-self">走進去</span></div><div class="rc">地中海三明治・沙拉</div><div class="rm"><b>📍</b> Jl. Pantai Pererenan No.8｜走路 7 分</div><div class="rm"><b>🕐</b> 每日 07:00–20:00　<b>⭐</b> 4.8／962 則 Google　<b>💵</b> IDR 20–35 萬</div><div class="rm ro"><b>點什麼：</b>烤雞口袋餅、法拉費口袋餅、配沙拉</div><div class="rm rw">👉 Pererenan 排第 2。19:00 到是最後點餐，反而逼你早睡</div><div class="rm rx">⚠️ 20:00 就關，別拖</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Sandwichopedia%20Pererenan%20Bali" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#fcf3d9,#fffefb)"><svg viewBox="0 0 52 52" style="color:#a67c00"><use href="#ic-taco"/></svg></div><div class="rbody"><div class="rn">🥉 Don Juan Mexican <span class="bdg b-open">建議訂</span></div><div class="rc">墨西哥菜</div><div class="rm"><b>📍</b> Jl. Pantai Pererenan Banjar Kangkang No.5</div><div class="rm"><b>🕐</b> 每日 10:00–23:00　<b>⭐</b> 4.6／243 則 Google　<b>💵</b> IDR 30–50 萬</div><div class="rm ro"><b>點什麼：</b>pork carnitas 捲餅、濕式雞肉捲餅</div><div class="rm rw">👉 開最晚的一家。飛機誤點就選這家</div><div class="rm rx">⚠️ 旺季建議先訂</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Don%20Juan%20Mexican%20Restaurant%20Pererenan" target="_blank">📷 看照片・評價</a></div></div></div>
+  </div>
+  <div class="mealhd"><div class="mh-d">8/20 <span>週四</span></div><div class="mh-t"><b>午餐</b> · 13:00<span class="zn z-n">北端 Canggu · Reload 旁</span></div></div>
+  <div class="mealnote">練完直接吃。三家都在 Reload 那條街上。</div>
+  <div class="rgrid">
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#e6f2f3,#fffefb)"><svg viewBox="0 0 52 52" style="color:#1d6f7a"><use href="#ic-shrimp"/></svg></div><div class="rbody"><div class="rn">🥇 Paed Thai Canggu <span class="bdg b-open">建議訂</span></div><div class="rc">泰式</div><div class="rm"><b>📍</b> Jl. Padang Linjong｜Reload 隔壁，走過馬路</div><div class="rm"><b>🕐</b> 每日 11:00–23:00　<b>⭐</b> 4.8／124 則　<b>💵</b> IDR 50–90 萬</div><div class="rm ro"><b>點什麼：</b>柚子海鮮沙拉（花枝＋蝦＋腰果）、Tam Khai Gai 雞肉鍋、蒜辣蝦</div><div class="rm rw">👉 泰式的烤物和沙拉是 Canggu 最好抓 macro 的一類</div><div class="rm rx">⚠️ ⏳ 菜單沒公開價格</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Paed%20Thai%20Canggu%20Padang%20Linjong" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#f0ebf9,#fffefb)"><svg viewBox="0 0 52 52" style="color:#6b4fa8"><use href="#ic-rice"/></svg></div><div class="rbody"><div class="rn">🥈 RICE Warung Yasa <span class="bdg b-self">走進去</span></div><div class="rc">印尼 warung</div><div class="rm"><b>📍</b> Jl. Padang Linjong No.55a｜同一條街走 5 分</div><div class="rm"><b>🕐</b> 週一–六 13:00–22:00・週日休　<b>⭐</b> 4.7／547 則 Google　<b>💵</b> IDR 8–12 萬</div><div class="rm ro"><b>點什麼：</b>nasi bakar 香蕉葉燒飯、beef rendang、沙嗲、oxtail soup</div><div class="rm rw">👉 兩人不到 NT$250。道地又便宜</div><div class="rm rx">⚠️ 13:00 才開，13:05 到剛好</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=RICE%20Warung%20Yasa%20Canggu" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#fbf0e4,#fffefb)"><svg viewBox="0 0 52 52" style="color:#b8763a"><use href="#ic-coffee"/></svg></div><div class="rbody"><div class="rn">⚠️ Crate Cafe｜別去 <span class="bdg b-todo">避開</span></div><div class="rc">咖啡館</div><div class="rm"><b>📍</b> Jl. Canggu Padang Linjong No.49｜就在 Reload 旁</div><div class="rm"><b>🕐</b> —　<b>⭐</b> 4.3／1,349 則・Canggu 587 家排第 66　<b>💵</b> —</div><div class="rm rw">👉 離 Reload 最近，最容易踩進去</div><div class="rm rx">⚠️ 常見客訴：等 30–45 分鐘、上錯單、菜冷掉、沒味道</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Crate%20Cafe%20Canggu" target="_blank">📷 看照片・評價</a></div></div></div>
+  </div>
+  <div class="mealhd"><div class="mh-d">8/20 <span>週四</span></div><div class="mh-t"><b>晚餐</b> · 18:30<span class="zn z-n">北端 Pererenan · Canggu</span></div></div>
+  <div class="mealnote">今天練整天，晚上吃好一點。</div>
+  <div class="rgrid">
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#fbeae8,#fffefb)"><svg viewBox="0 0 52 52" style="color:#c0392f"><use href="#ic-skewer"/></svg></div><div class="rbody"><div class="rn">🥇 Zali <span class="bdg b-open">建議訂</span></div><div class="rc">黎巴嫩・中東烤肉</div><div class="rm"><b>📍</b> Jl. Pantai Pererenan No.152</div><div class="rm"><b>🕐</b> 每日 08:00–23:30　<b>⭐</b> 4.8／1,456 則 Google　<b>💵</b> IDR 20–50 萬</div><div class="rm ro"><b>點什麼：</b>mezze 拼盤、shawarma、烤 halloumi、tabbouleh</div><div class="rm rw">👉 這一區樣本最厚最可信的一家。烤肉＋前菜是最不油的高蛋白吃法</div><div class="rm rx">⚠️ 週四有現場音樂，8/20 正好是週四</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Zali%20Pererenan%20Bali" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#e6f2f3,#fffefb)"><svg viewBox="0 0 52 52" style="color:#1d6f7a"><use href="#ic-plate"/></svg></div><div class="rbody"><div class="rn">🥈 Taru at Regent Bali <span class="bdg b-todo">必訂位</span></div><div class="rc">當代印尼・精緻</div><div class="rm"><b>📍</b> Jl. Pantai Batu Bolong B, Canggu｜Regent 飯店內</div><div class="rm"><b>🕐</b> 每日 18:00–22:00　<b>⭐</b> 5.0／211 則・Canggu 671 家排第 3　<b>💵</b> ⏳ 未公開（標 $$$$）</div><div class="rm ro"><b>點什麼：</b>印尼單點菜單，有主廚桌就點主廚桌</div><div class="rm rw">👉 想吃一頓好的又不想再吃義大利菜——唯一「高級＋印尼」的交集</div><div class="rm rx">⚠️ 一定要訂：+62 361 2019999</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Taru%20Regent%20Bali%20Canggu" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#e6f2f3,#fffefb)"><svg viewBox="0 0 52 52" style="color:#1d6f7a"><use href="#ic-fish"/></svg></div><div class="rbody"><div class="rn">🥉 Shelter Restaurant <span class="bdg b-open">建議訂</span></div><div class="rc">地中海・柴燒</div><div class="rm"><b>📍</b> Jl. Pantai Pererenan No.133</div><div class="rm"><b>🕐</b> 每日 12:00–00:00　<b>⭐</b> 4.7／52 則　<b>💵</b> IDR 70–120 萬</div><div class="rm ro"><b>點什麼：</b>焦糖蜂蜜辣茄子、干貝、鮪魚塔塔、章魚</div><div class="rm rw">👉 在 Pererenan，吃完離家近</div><div class="rm rx">⚠️ ⏳ 評價則數偏少</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Shelter%20Restaurant%20Pererenan%20Bali" target="_blank">📷 看照片・評價</a></div></div></div>
+  </div>
+  <div class="mealhd"><div class="mh-d">8/21 <span>週五</span></div><div class="mh-t"><b>午餐</b> · 12:30<span class="zn z-n">北端 Pererenan</span></div></div>
+  <div class="mealnote">晚上有 2.5 小時聲療，中午別吃太撐。</div>
+  <div class="rgrid">
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#e7f4ec,#fffefb)"><svg viewBox="0 0 52 52" style="color:#2f7a4f"><use href="#ic-bowl"/></svg></div><div class="rbody"><div class="rn">🥇 LOOP Café <span class="bdg b-self">走進去</span></div><div class="rc">健康餐・標營養素</div><div class="rm"><b>📍</b> Jl. Dalem Lingsir No.12, Pererenan</div><div class="rm"><b>🕐</b> 每日 06:00–18:00　<b>⭐</b> ⏳ 查不到任何評價　<b>💵</b> IDR 30–50 萬</div><div class="rm ro"><b>點什麼：</b>Omega 鮭魚碗 50.8g 蛋白／199,000・Protein Syrniki 43.4g／149,000・鮪魚 tataki 沙拉／99,000</div><div class="rm rw">👉 菜單直接標蛋白質克數和價格，整個 Pererenan 只有這一家</div><div class="rm rx">⚠️ 推它是因為菜單本身，不是口碑——TripAdvisor 0 則評價</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=LOOP%20Cafe%20Pererenan%20Bali" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#f0ebf9,#fffefb)"><svg viewBox="0 0 52 52" style="color:#6b4fa8"><use href="#ic-rice"/></svg></div><div class="rbody"><div class="rn">🥈 Warung Babi Guling Swari <span class="bdg b-self">走進去</span></div><div class="rc">峇里烤乳豬</div><div class="rm"><b>📍</b> Jl. Pantai Pererenan No.79</div><div class="rm"><b>🕐</b> 每日 09:00–21:00　<b>⭐</b> 4.7／299 則 Google　<b>💵</b> IDR 10–16 萬</div><div class="rm ro"><b>點什麼：</b>nasi babi guling 全套：脆皮、lawar、豬油渣、辣湯</div><div class="rm rw">👉 整趟最「峇里」的一餐，兩人不到 NT$350</div><div class="rm rx">⚠️ 15:00 前去，好部位會賣完</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Warung%20Babi%20Guling%20Swari%20Canggu" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#e7f4ec,#fffefb)"><svg viewBox="0 0 52 52" style="color:#2f7a4f"><use href="#ic-bowl"/></svg></div><div class="rbody"><div class="rn">🥉 Boheme（Shore Amora） <span class="bdg b-open">建議訂</span></div><div class="rc">現代西式・泳池畔</div><div class="rm"><b>📍</b> Jl. Pantai Pererenan｜Shore Amora 內</div><div class="rm"><b>🕐</b> 每日 07:00–22:00　<b>⭐</b> 4.9／220 則・Pererenan 87 家排第 1　<b>💵</b> IDR 35–65 萬</div><div class="rm ro"><b>點什麼：</b>檸檬芥末烤雞沙拉、炭烤花椰菜配中東芝麻醬</div><div class="rm rw">👉 Pererenan 分數最高的一家，泳池畔不趕人</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Boheme%20Restaurant%20Shore%20Amora%20Canggu" target="_blank">📷 看照片・評價</a></div></div></div>
+  </div>
+  <div class="mealhd"><div class="mh-d">8/21 <span>週五</span></div><div class="mh-t"><b>晚餐</b> · 20:15<span class="zn z-n">北端 Pererenan</span></div></div>
+  <div class="mealnote">聲療 20:00 結束，要找還在供餐的。</div>
+  <div class="rgrid">
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#f0ebf9,#fffefb)"><svg viewBox="0 0 52 52" style="color:#6b4fa8"><use href="#ic-rice"/></svg></div><div class="rbody"><div class="rn">🥇 HOME by Chef Wayan <span class="bdg b-todo">必訂位</span></div><div class="rc">現代峇里・主廚料理</div><div class="rm"><b>📍</b> Jl. Pantai Pererenan No.92</div><div class="rm"><b>🕐</b> 12:00–22:00・⚠️ 週二休　<b>⭐</b> 4.7／398 則 Google　<b>💵</b> IDR 60–80 萬</div><div class="rm ro"><b>點什麼：</b>招牌煙燻鴨 bebek、牛肉 rendang、炭烤章魚配參巴、五道主廚精選</div><div class="rm rw">👉 主廚待過 Blue Hill at Stone Barns、Kaum 行政主廚。整趟只吃一頓印尼菜就吃這頓</div><div class="rm rx">⚠️ 最後點餐約 21:30，20:15 準時到。訂位 +62 812-3759-3530</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=HOME%20by%20Chef%20Wayan%20Pererenan" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#e6f2f3,#fffefb)"><svg viewBox="0 0 52 52" style="color:#1d6f7a"><use href="#ic-fish"/></svg></div><div class="rbody"><div class="rn">🥈 Hippie Fish <span class="bdg b-todo">必訂位</span></div><div class="rc">地中海海鮮・屋頂</div><div class="rm"><b>📍</b> Jl. Pantai Pererenan No.171</div><div class="rm"><b>🕐</b> 每日 12:00–00:00　<b>⭐</b> 4.9／207 則・Pererenan 排第 3　<b>💵</b> IDR 60–90 萬</div><div class="rm ro"><b>點什麼：</b>乾式熟成黃鰭鮪、芝麻鮪魚、黑鱈、蛤蜊麵</div><div class="rm rw">👉 這條街唯一有 view 的屋頂，開到午夜</div><div class="rm rx">⚠️ 一定要訂：+62 813-3759-6236</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Hippie%20Fish%20Pererenan%20Beach" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#fbeae8,#fffefb)"><svg viewBox="0 0 52 52" style="color:#c0392f"><use href="#ic-steak"/></svg></div><div class="rbody"><div class="rn">🥉 Fuego <span class="bdg b-open">建議訂</span></div><div class="rc">阿根廷炭烤</div><div class="rm"><b>📍</b> Jalan Pura Dalem Lingsir, Pererenan</div><div class="rm"><b>🕐</b> ⏳ 官網說每日 10:00–23:00，訂位平台說週一休　<b>⭐</b> 4.9／28 則　<b>💵</b> IDR 70–120 萬</div><div class="rm ro"><b>點什麼：</b>阿根廷豬五花排配辣甜薯、柴燒各式肉排</div><div class="rm rw">👉 兩個重訓的人＋一個柴火。離住處很近</div><div class="rm rx">⚠️ ⏳ 評價只有 28 則。訂位 +62 822-6631-2220</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Fuego%20Pererenan%20Bali" target="_blank">📷 看照片・評價</a></div></div></div>
+  </div>
+  <div class="mealhd"><div class="mh-d">8/22 <span>週六</span></div><div class="mh-t"><b>早午餐</b> · 12:00<span class="zn z-n">北端 Pererenan</span></div></div>
+  <div class="mealnote">下午才出門去 Nuanu，中午慢慢吃。</div>
+  <div class="rgrid">
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#e7f4ec,#fffefb)"><svg viewBox="0 0 52 52" style="color:#2f7a4f"><use href="#ic-bowl"/></svg></div><div class="rbody"><div class="rn">🥇 Boheme（Shore Amora） <span class="bdg b-open">建議訂</span></div><div class="rc">現代西式・泳池畔</div><div class="rm"><b>📍</b> Jl. Pantai Pererenan｜Shore Amora 內</div><div class="rm"><b>🕐</b> 每日 07:00–22:00　<b>⭐</b> 4.9／220 則・Pererenan 排第 1　<b>💵</b> IDR 35–65 萬</div><div class="rm ro"><b>點什麼：</b>smoothie bowl、炒蛋、烤雞沙拉、鮮榨果汁</div><div class="rm rw">👉 Pererenan 分數最高，週六中午的正確場合</div><div class="rm rx">⚠️ 週六建議先打電話</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Boheme%20Restaurant%20Shore%20Amora%20Canggu" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#e7f4ec,#fffefb)"><svg viewBox="0 0 52 52" style="color:#2f7a4f"><use href="#ic-bowl"/></svg></div><div class="rbody"><div class="rn">🥈 LOOP Café <span class="bdg b-self">走進去</span></div><div class="rc">健康餐・標營養素</div><div class="rm"><b>📍</b> Jl. Dalem Lingsir No.12</div><div class="rm"><b>🕐</b> 每日 06:00–18:00　<b>⭐</b> ⏳ 查不到評價　<b>💵</b> IDR 30–50 萬</div><div class="rm ro"><b>點什麼：</b>Loop Duo poke bowl 149,000・鮭魚碗 129,000・鮪魚 tataki 沙拉 99,000</div><div class="rm rw">👉 昨天沒去的話今天補</div><div class="rm rx">⚠️ ⏳ 沒有口碑可查</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=LOOP%20Cafe%20Pererenan%20Bali" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#fbf0e4,#fffefb)"><svg viewBox="0 0 52 52" style="color:#b8763a"><use href="#ic-coffee"/></svg></div><div class="rbody"><div class="rn">🥉 Sana by Numa <span class="bdg b-self">走進去</span></div><div class="rc">早午餐・手作烘焙</div><div class="rm"><b>📍</b> Jl. Pantai Pererenan No.82</div><div class="rm"><b>🕐</b> 每日 07:00–19:00　<b>⭐</b> ⏳ 查不到評價與價格　<b>💵</b> ⏳ 未知</div><div class="rm ro"><b>點什麼：</b>麵包與早午餐</div><div class="rm rw">👉 第三順位，資料最少</div><div class="rm rx">⚠️ ⏳ 去之前先用 Google Maps 看一下評價</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Sana%20by%20Numa%20Pererenan" target="_blank">📷 看照片・評價</a></div></div></div>
+  </div>
+  <div class="mealhd"><div class="mh-d">8/22 <span>週六</span></div><div class="mh-t"><b>晚餐</b> · 19:30<span class="zn z-n">北端 Nuanu 園區內</span></div></div>
+  <div class="mealnote">導覽 19:30 結束，就在園區裡吃。</div>
+  <div class="rgrid">
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#f0ebf9,#fffefb)"><svg viewBox="0 0 52 52" style="color:#6b4fa8"><use href="#ic-rice"/></svg></div><div class="rbody"><div class="rn">🥇 Nusantara｜Warung Nine Islands <span class="bdg b-open">建議訂</span></div><div class="rc">九島印尼菜</div><div class="rm"><b>📍</b> Nuanu 園區內，Luna 隔壁｜搭園內接駁</div><div class="rm"><b>🕐</b> 每日 12:00–22:00　<b>⭐</b> ⏳ 8/14 才開幕，沒有評價　<b>💵</b> IDR 40–70 萬（主餐 12 萬起）</div><div class="rm ro"><b>點什麼：</b>爪哇、蘇門答臘、峇里、龍目、蘇拉威西、加里曼丹、松巴、佛羅勒斯、馬都拉九個島的菜</div><div class="rm rw">👉 120 公尺長的印尼美食文化街，18:00 有現場音樂。開到 22:00，時間完全對得上</div><div class="rm rx">⚠️ 想保險就點這家，別點隔壁 Meja 36 的 IDR 499,000／人 tasting menu</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Nusantara%20Nuanu%20Creative%20City%20Tabanan" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#fbf0e4,#fffefb)"><svg viewBox="0 0 52 52" style="color:#b8763a"><use href="#ic-pizza"/></svg></div><div class="rbody"><div class="rn">🥈 Luna Beach Club｜只喝一杯 <span class="bdg b-self">走進去</span></div><div class="rc">海邊酒吧</div><div class="rm"><b>📍</b> Nuanu 園區內</div><div class="rm"><b>🕐</b> 16:00 起有節目　<b>⭐</b> ⚠️ 3.5／44 則 TripAdvisor　<b>💵</b> 入場約 13 萬／人（含 1 杯）</div><div class="rm ro"><b>點什麼：</b>調酒。餐點不推</div><div class="rm rw">👉 17:00 去看夕陽、建築和光影秀，喝一杯就好</div><div class="rm rx">⚠️ 評論兩極，兩篇標題直接叫「Overrated」和「AVOID AT ALL COST」。日床最低消 180 萬起</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Luna%20Beach%20Club%20Nuanu%20Bali" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#fbf0e4,#fffefb)"><svg viewBox="0 0 52 52" style="color:#b8763a"><use href="#ic-coffee"/></svg></div><div class="rbody"><div class="rn">⚠️ ASH Nuanu <span class="bdg b-self">走進去</span></div><div class="rc">融合料理</div><div class="rm"><b>📍</b> Nuanu 園區內</div><div class="rm"><b>🕐</b> 週六 14:00–24:00　<b>⭐</b> ⏳ 只有 5 則評價　<b>💵</b> IDR 40–70 萬</div><div class="rm ro"><b>點什麼：</b>主廚融合菜、咖啡</div><div class="rm rx">⚠️ ⚠️ 週五六 19:00 起是 EDM 派對。8/22 正好週六——想跳舞才去</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Ash%20Nuanu%20Beraban%20Bali" target="_blank">📷 看照片・評價</a></div></div></div>
+  </div>
+  <div class="mealhd"><div class="mh-d">8/23 <span>週日</span></div><div class="mh-t"><b>晚餐</b> · 19:45<span class="zn z-n">北端 Berawa</span></div></div>
+  <div class="mealnote">泡完 Nirvana Life 直接走過去。</div>
+  <div class="rgrid">
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#e6f2f3,#fffefb)"><svg viewBox="0 0 52 52" style="color:#1d6f7a"><use href="#ic-plate"/></svg></div><div class="rbody"><div class="rn">🥇 LONGTIME <span class="bdg b-todo">必訂位</span></div><div class="rc">現代亞洲・精緻</div><div class="rm"><b>📍</b> Jl. Pantai Berawa No.13｜離 Nirvana Life 走 100 公尺</div><div class="rm"><b>🕐</b> 週日 12:00–23:00　<b>⭐</b> ⏳ 只有 6 則評價（新店）　<b>💵</b> IDR 80–140 萬</div><div class="rm ro"><b>點什麼：</b>招牌布拉塔 18 萬・北海道干貝 crudo 18 萬・牛肉塔塔 18 萬・脆皮半鴨 32 萬・馬沙曼燉牛頰 28 萬</div><div class="rm rw">👉 泡完整天走 100 公尺就到。菜是蛋白質導向不是澱粉導向，亞洲風味你們讀得懂</div><div class="rm rx">⚠️ 一定要訂：+62 821-4440-8260。⏳ 編輯媒體評價好但沒有大樣本佐證</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Longtime%20Modern%20Asian%20Berawa%20Bali" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#fbeae8,#fffefb)"><svg viewBox="0 0 52 52" style="color:#c0392f"><use href="#ic-steak"/></svg></div><div class="rbody"><div class="rn">🥈 VORE Canggu <span class="bdg b-todo">必訂位</span></div><div class="rc">乾式熟成牛排</div><div class="rm"><b>📍</b> Jl. Pantai Berawa No.34｜走 700 公尺</div><div class="rm"><b>🕐</b> 每日 11:00–23:00　<b>⭐</b> 5.0／139 則・Canggu 671 家排第 10　<b>💵</b> IDR 120–250 萬</div><div class="rm ro"><b>點什麼：</b>帶骨乾式熟成肋眼、慢煮牛胸、炭烤大蝦、起司蛋糕</div><div class="rm rw">👉 兩個重訓的人＋一個熟成櫃。全程最高蛋白的一頓</div><div class="rm rx">⚠️ 訂位 +62 812-3078-0186</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Vore%20Canggu%20Berawa" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#e6f2f3,#fffefb)"><svg viewBox="0 0 52 52" style="color:#1d6f7a"><use href="#ic-fish"/></svg></div><div class="rbody"><div class="rn">🥉 SHUN Omakase <span class="bdg b-todo">必訂位</span></div><div class="rc">日式無菜單</div><div class="rm"><b>📍</b> The Komu, Jl. Pantai Berawa No.99</div><div class="rm"><b>🕐</b> 每日兩場 18:30／20:30・僅 11 席　<b>⭐</b> ⏳ 查不到評價與價格　<b>💵</b> ⏳ 未公開</div><div class="rm ro"><b>點什麼：</b>13–18 道無菜單</div><div class="rm rw">👉 想吃板前料理的話</div><div class="rm rx">⚠️ ⚠️ 19:45 卡不進任何一場，要改 18:30 或 20:30。訂位 +62 823-2254-4642</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Shun%20Omakase%20The%20Komu%20Berawa" target="_blank">📷 看照片・評價</a></div></div></div>
+  </div>
+  <div class="mealhd"><div class="mh-d">8/24 <span>週一</span></div><div class="mh-t"><b>午餐</b> · 13:15<span class="zn z-s">南端 Uluwatu</span></div></div>
+  <div class="mealnote">拖著行李、15:00 才能入住，要能坐久一點。</div>
+  <div class="rgrid">
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#fbf0e4,#fffefb)"><svg viewBox="0 0 52 52" style="color:#b8763a"><use href="#ic-coffee"/></svg></div><div class="rbody"><div class="rn">🥇 Bukit Cafe <span class="bdg b-self">走進去</span></div><div class="rc">澳式咖啡館</div><div class="rm"><b>📍</b> Jl. Labuansait, Pecatu</div><div class="rm"><b>🕐</b> 每日 07:00–22:00　<b>⭐</b> 4.5／1,830 則 Google　<b>💵</b> IDR 35–50 萬</div><div class="rm ro"><b>點什麼：</b>Buddha bowl、漢堡、炸魚薯條</div><div class="rm rw">👉 三家裡唯一有自己停車場、戶外空間夠大——拖兩個行李箱不尷尬，也不會被趕</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Bukit%20Cafe%20Pecatu%20Uluwatu" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#fbf0e4,#fffefb)"><svg viewBox="0 0 52 52" style="color:#b8763a"><use href="#ic-coffee"/></svg></div><div class="rbody"><div class="rn">🥈 Suka Espresso <span class="bdg b-self">走進去</span></div><div class="rc">澳式早午餐</div><div class="rm"><b>📍</b> Jl. Labuansait No.10</div><div class="rm"><b>🕐</b> 每日 07:30–22:00　<b>⭐</b> 4.8／約 10,000 則 Google　<b>💵</b> IDR 25–40 萬</div><div class="rm ro"><b>點什麼：</b>水波蛋、酪梨蛋、acai bowl。早餐 6 萬／份供應到 15:00</div><div class="rm rw">👉 Uluwatu 樣本最大的優質咖啡館</div><div class="rm rx">⚠️ ⚠️ 尖峰排 15–20 分鐘、翻桌快，拖行李不理想</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Suka%20Espresso%20Uluwatu" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#f0ebf9,#fffefb)"><svg viewBox="0 0 52 52" style="color:#6b4fa8"><use href="#ic-rice"/></svg></div><div class="rbody"><div class="rn">🥉 Warung Local <span class="bdg b-self">走進去</span></div><div class="rc">印尼菜</div><div class="rm"><b>📍</b> Jl. Labuansait No.10A</div><div class="rm"><b>🕐</b> 每日 08:00–22:00　<b>⭐</b> 4.4／2,184 則 Google　<b>💵</b> IDR 20–28 萬</div><div class="rm ro"><b>點什麼：</b>Nyoman set 綜合飯、bakso、maggi goreng</div><div class="rm rw">👉 最便宜的道地選項，花園座位不趕時間</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Warung%20Local%20Uluwatu%20Labuansait" target="_blank">📷 看照片・評價</a></div></div></div>
+  </div>
+  <div class="mealhd"><div class="mh-d">8/24 <span>週一</span></div><div class="mh-t"><b>晚餐</b> · 19:45<span class="zn z-s">南端 Uluwatu</span></div></div>
+  <div class="mealnote">⚠️ 火舞 19:00 散場，神廟官方明講 19:00 後離場可能要兩小時。訂 19:45 不要訂 19:15。</div>
+  <div class="rgrid">
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#fbeae8,#fffefb)"><svg viewBox="0 0 52 52" style="color:#c0392f"><use href="#ic-steak"/></svg></div><div class="rbody"><div class="rn">🥇 The Temple Bar & Grill <span class="bdg b-open">建議訂</span></div><div class="rc">炭烤・牛排</div><div class="rm"><b>📍</b> Jl. Labuansait No.10b｜住處同一條路</div><div class="rm"><b>🕐</b> 每日 12:00–23:00　<b>⭐</b> 4.8／1,551 則 Google・4.9／296 則 TA　<b>💵</b> IDR 46–80 萬</div><div class="rm ro"><b>點什麼：</b>菲力、炭烤雞、大蝦、鬼頭刀、鮪魚排</div><div class="rm rw">👉 開到 23:00，散場塞車完全不影響。燒烤菜單是 Uluwatu 最好湊到 50g+ 蛋白的地方</div><div class="rm rx">⚠️ 訂位 +62 823-4091-6638</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=The%20Temple%20Bar%20and%20Grill%20Uluwatu" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#fbeae8,#fffefb)"><svg viewBox="0 0 52 52" style="color:#c0392f"><use href="#ic-skewer"/></svg></div><div class="rbody"><div class="rn">🥈 ZALI Uluwatu <span class="bdg b-open">建議訂</span></div><div class="rc">黎巴嫩烤肉</div><div class="rm"><b>📍</b> Jl. Pantai Labuan Sait, Suluban</div><div class="rm"><b>🕐</b> 每日 08:00–23:30　<b>⭐</b> 4.8／971 則 Google　<b>💵</b> IDR 50–80 萬</div><div class="rm ro"><b>點什麼：</b>雞肉 shawarma、綜合烤肉盤、鷹嘴豆泥、烤茄泥</div><div class="rm rw">👉 開最晚的一家（23:30），完全不用擔心塞車</div><div class="rm rx">⚠️ 有評論說偏貴</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Zali%20Lebanese%20Restaurant%20Uluwatu" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#f0ebf9,#fffefb)"><svg viewBox="0 0 52 52" style="color:#6b4fa8"><use href="#ic-rice"/></svg></div><div class="rbody"><div class="rn">🥉 ULU Garden <span class="bdg b-open">建議訂</span></div><div class="rc">當代印尼・現場音樂</div><div class="rm"><b>📍</b> ULU TRIBE, Jl. Pantai Padang-Padang</div><div class="rm"><b>🕐</b> 每日 07:00 起・⏳ 只寫「到很晚」　<b>⭐</b> 4.8／3,261 則 Google・4.9／302 則 TA　<b>💵</b> ⏳ 未公開</div><div class="rm ro"><b>點什麼：</b>印尼麵食之夜、柴燒整條魚</div><div class="rm rw">👉 Uluwatu 最好評的印尼餐廳，每晚有現場音樂，位置在神廟和住處中間</div><div class="rm rx">⚠️ ⏳ 打烊時間要先問，先 WhatsApp 確認</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=ULU%20Garden%20Ulu%20Tribe%20Padang%20Padang" target="_blank">📷 看照片・評價</a></div></div></div>
+  </div>
+  <div class="mealhd"><div class="mh-d">8/25 <span>週二</span></div><div class="mh-t"><b>午餐</b> · 13:40<span class="zn z-i">離島 Nusa Penida 島上</span></div></div>
+  <div class="mealnote">⚠️ 司機預設會帶去有抽成的自助餐廳。訂車時就要講，不是當天。</div>
+  <div class="rgrid">
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#e6f2f3,#fffefb)"><svg viewBox="0 0 52 52" style="color:#1d6f7a"><use href="#ic-shrimp"/></svg></div><div class="rbody"><div class="rn">🥇 Amok Sun & Cliff Club <span class="bdg b-todo">必訂位</span></div><div class="rc">國際融合・崖上</div><div class="rm"><b>📍</b> Gamat Bay, Sakti｜就在 Crystal Bay 旁</div><div class="rm"><b>🕐</b> 每日 11:00–23:00　<b>⭐</b> 4.7／815 則・Sakti 28 家排第 4　<b>💵</b> IDR 70–80 萬（套餐）</div><div class="rm ro"><b>點什麼：</b>豬肋排、泰式炒河粉配蝦、酸辣海鮮湯</div><div class="rm rw">👉 西岸唯一有正經廚房＋泳池＋view，正規西線行程都排這裡，司機一定知道</div><div class="rm rx">⚠️ 8 月旺季一定要先訂 +62 823 3555 5016。評論說品質不穩、露天有蒼蠅、進去的路很爛</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Amok%20Sunset%20Bar%20Restaurant%20Nusa%20Penida" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#e6f2f3,#fffefb)"><svg viewBox="0 0 52 52" style="color:#1d6f7a"><use href="#ic-fish"/></svg></div><div class="rbody"><div class="rn">🥈 Warnakali Restaurant <span class="bdg b-open">建議訂</span></div><div class="rc">國際・海鮮</div><div class="rm"><b>📍</b> Sakti｜離 Crystal Bay 4.3 公里，回碼頭路上</div><div class="rm"><b>🕐</b> 每日 07:00–23:00　<b>⭐</b> 4.9／746 則・Sakti 29 家排第 2　<b>💵</b> IDR 50–80 萬</div><div class="rm ro"><b>點什麼：</b>鮪魚 poke bowl、Penida 魚、bebek betutu</div><div class="rm rw">👉 那一側評分最高的。poke bowl 是最好的上船前一餐，看得到海和阿貢火山</div><div class="rm rx">⚠️ 建議先訂</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Warnakali%20Restaurant%20Nusa%20Penida" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#e6f2f3,#fffefb)"><svg viewBox="0 0 52 52" style="color:#1d6f7a"><use href="#ic-fish"/></svg></div><div class="rbody"><div class="rn">🥉 Warung Tu Pande <span class="bdg b-self">走進去</span></div><div class="rc">家庭式・炭烤鮮魚</div><div class="rm"><b>📍</b> Jl. Raya Toyapakeh</div><div class="rm"><b>🕐</b> 每日 07:00–22:00　<b>⭐</b> 4.5／275 則　<b>💵</b> IDR 15–25 萬</div><div class="rm ro"><b>點什麼：</b>炭烤鮮魚配飯、咖哩</div><div class="rm rw">👉 行程 delay、只想吃完就走的話選這家</div><div class="rm rx">⚠️ ⚠️ 只收現金</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Warung%20Tu%20Pande%20Nusa%20Penida" target="_blank">📷 看照片・評價</a></div></div></div>
+  </div>
+  <div class="mealhd"><div class="mh-d">8/25 <span>週二</span></div><div class="mh-t"><b>晚餐</b> · 19:00<span class="zn z-s">南端 Uluwatu</span></div></div>
+  <div class="mealnote">跳島回來很累，目標是零決策。</div>
+  <div class="rgrid">
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#f0ebf9,#fffefb)"><svg viewBox="0 0 52 52" style="color:#6b4fa8"><use href="#ic-rice"/></svg></div><div class="rbody"><div class="rn">🥇 Warung Local <span class="bdg b-self">走進去</span></div><div class="rc">印尼菜</div><div class="rm"><b>📍</b> Jl. Labuansait No.10A</div><div class="rm"><b>🕐</b> 每日 08:00–22:00　<b>⭐</b> 4.4／2,184 則 Google　<b>💵</b> IDR 20–28 萬</div><div class="rm ro"><b>點什麼：</b>Nyoman set 綜合飯，加點雞肉補蛋白、bakso、沙嗲</div><div class="rm rw">👉 走進去、指著檯子點、吃完走人。累到不想決定的時候就這家</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Warung%20Local%20Uluwatu%20Labuansait" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#e7f4ec,#fffefb)"><svg viewBox="0 0 52 52" style="color:#2f7a4f"><use href="#ic-sandwich"/></svg></div><div class="rbody"><div class="rn">🥈 叫外送（GrabFood） <span class="bdg b-self">走進去</span></div><div class="rc">外送</div><div class="rm"><b>📍</b> 把住處 pin 設好，App 裡會跳出可送的店</div><div class="rm"><b>🕐</b> 建議 19:00 前下單　<b>⭐</b> Pecatu 確實有店：Suka Espresso、Mana、Lola's、Wishing Well 等　<b>💵</b> 看店家</div><div class="rm rw">👉 Uluwatu 的問題是「叫不到車」不是「送不到餐」——工會擋的是載客，外送不是目標</div><div class="rm rx">⚠️ ⏳ 能不能送到你們那個確切地址無法事先驗證。帶現金、用 WhatsApp 分享即時位置給外送員</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Grab%20Food%20Pecatu%20Bali" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#f0ebf9,#fffefb)"><svg viewBox="0 0 52 52" style="color:#6b4fa8"><use href="#ic-rice"/></svg></div><div class="rbody"><div class="rn">🥉 Warung Cenana（WANA） <span class="bdg b-self">走進去</span></div><div class="rc">峇里 warung</div><div class="rm"><b>📍</b> Jl. Labuansait No.99</div><div class="rm"><b>🕐</b> 每日 07:00–21:30　<b>⭐</b> 4.3／998 則 Google　<b>💵</b> IDR 15–25 萬</div><div class="rm ro"><b>點什麼：</b>自助拼盤（飯＋雞＋配菜）、雞肉沙嗲、脆天貝</div><div class="rm rw">👉 最道地也最便宜的，份量很大</div><div class="rm rx">⚠️ 21:30 就關</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Warung%20Cenana%20WANA%20Uluwatu" target="_blank">📷 看照片・評價</a></div></div></div>
+  </div>
+  <div class="mealhd"><div class="mh-d">8/26 <span>週三</span></div><div class="mh-t"><b>午餐</b> · 14:00<span class="zn z-s">南端 Uluwatu</span></div></div>
+  <div class="mealnote">⚠️ 17:30 要吃 7 道套餐，中午一定要輕。</div>
+  <div class="rgrid">
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#e7f4ec,#fffefb)"><svg viewBox="0 0 52 52" style="color:#2f7a4f"><use href="#ic-bowl"/></svg></div><div class="rbody"><div class="rn">🥇 Bambu Cafe <span class="bdg b-self">走進去</span></div><div class="rc">健康餐・標營養素</div><div class="rm"><b>📍</b> Jl. Pantai Bingin No.8｜Bambu Fitness 附設</div><div class="rm"><b>🕐</b> 每日 06:30–22:00　<b>⭐</b> 4.5／525 則 Google　<b>💵</b> IDR 30–45 萬</div><div class="rm ro"><b>點什麼：</b>Dory Bowl 或酪梨雞肉沙拉。飲料跳過</div><div class="rm rw">👉 整個 Bukit 半島唯一每道菜標蛋白質／脂肪／碳水的餐廳，可以精準抓份量。只用椰子油和橄欖油</div><div class="rm rx">⚠️ ⏳ 沒查到公開價格</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Bambu%20Cafe%20Bingin%20Uluwatu" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#e7f4ec,#fffefb)"><svg viewBox="0 0 52 52" style="color:#2f7a4f"><use href="#ic-bowl"/></svg></div><div class="rbody"><div class="rn">🥈 Brunch Station <span class="bdg b-self">走進去</span></div><div class="rc">早午餐・有蛋白飲</div><div class="rm"><b>📍</b> Jl. Labuansait No.73</div><div class="rm"><b>🕐</b> 每日 07:00–19:00・不接受訂位　<b>⭐</b> 4.9／約 3,000 則 Google　<b>💵</b> IDR 25–40 萬</div><div class="rm ro"><b>點什麼：</b>鮪魚塔塔、鮭魚排、烤雞、酪梨雞肉捲</div><div class="rm rw">👉 Pecatu 分數最高的咖啡館</div><div class="rm rx">⚠️ ⚠️ 份量偏大，兩人點「一主餐＋一前菜」就好</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Brunch%20Station%20Uluwatu" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#e7f4ec,#fffefb)"><svg viewBox="0 0 52 52" style="color:#2f7a4f"><use href="#ic-bowl"/></svg></div><div class="rbody"><div class="rn">🥉 Nourish Cafe <span class="bdg b-self">走進去</span></div><div class="rc">全食物・輕食</div><div class="rm"><b>📍</b> Jl. Labuansait No.52</div><div class="rm"><b>🕐</b> 每日 07:00–22:30　<b>⭐</b> 4.5 Google（⏳ 則數未知）　<b>💵</b> IDR 25–40 萬</div><div class="rm ro"><b>點什麼：</b>acai bowl 加購蛋白、雞肉捲、shakshouka</div><div class="rm rw">👉 三家裡份量最小，完全不會撐到晚上</div><div class="rm rx">⚠️ ⏳ TripAdvisor 只有 3.5／13 則</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Nourish%20Cafe%20Uluwatu" target="_blank">📷 看照片・評價</a></div></div></div>
+  </div>
+  <div class="mealhd"><div class="mh-d">8/27 <span>週四</span></div><div class="mh-t"><b>早餐</b> · 09:00<span class="zn z-s">南端 Uluwatu</span></div></div>
+  <div class="mealnote">11:00 退房，吃完剛好。</div>
+  <div class="rgrid">
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#fbf0e4,#fffefb)"><svg viewBox="0 0 52 52" style="color:#b8763a"><use href="#ic-coffee"/></svg></div><div class="rbody"><div class="rn">🥇 Suka Espresso <span class="bdg b-self">走進去</span></div><div class="rc">澳式早餐・咖啡</div><div class="rm"><b>📍</b> Jl. Labuansait No.10｜住處同一條路</div><div class="rm"><b>🕐</b> 每日 07:30–22:00　<b>⭐</b> 4.8／約 10,000 則 Google　<b>💵</b> IDR 25–35 萬</div><div class="rm ro"><b>點什麼：</b>水波蛋酸種吐司、酪梨蛋、acai bowl。早餐 6 萬／份</div><div class="rm rw">👉 Bukit 半島最好的咖啡，走路可到</div><div class="rm rx">⚠️ 09:00 前到，晚了要排隊</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Suka%20Espresso%20Uluwatu" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#fbf0e4,#fffefb)"><svg viewBox="0 0 52 52" style="color:#b8763a"><use href="#ic-coffee"/></svg></div><div class="rbody"><div class="rn">🥈 Brunch Station <span class="bdg b-self">走進去</span></div><div class="rc">早午餐</div><div class="rm"><b>📍</b> Jl. Labuansait No.73</div><div class="rm"><b>🕐</b> 每日 07:00–19:00・不接受訂位　<b>⭐</b> 4.9／約 3,000 則 Google　<b>💵</b> IDR 25–40 萬</div><div class="rm ro"><b>點什麼：</b>水果穀麥、蛋料理、法式吐司</div><div class="rm rw">👉 開最早（07:00），最後一天想早點吃就這家</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Brunch%20Station%20Uluwatu" target="_blank">📷 看照片・評價</a></div></div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#e7f4ec,#fffefb)"><svg viewBox="0 0 52 52" style="color:#2f7a4f"><use href="#ic-bowl"/></svg></div><div class="rbody"><div class="rn">🥉 Bambu Cafe <span class="bdg b-self">走進去</span></div><div class="rc">健康餐</div><div class="rm"><b>📍</b> Jl. Pantai Bingin No.8</div><div class="rm"><b>🕐</b> 每日 06:30–22:00　<b>⭐</b> 4.5／525 則 Google　<b>💵</b> IDR 30–45 萬</div><div class="rm ro"><b>點什麼：</b>香蕉法式吐司、印度香料炒豆腐</div><div class="rm rw">👉 06:30 開，全 Bukit 最早。想再練一場的話健身房就在隔壁</div><div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Bambu%20Cafe%20Bingin%20Uluwatu" target="_blank">📷 看照片・評價</a></div></div></div>
+  </div>
+
+  <h2>💎 想再加一頓大餐？</h2>
+  <div class="rgrid">
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#fbeae8,#fffefb)"><svg viewBox="0 0 52 52" style="color:#c0392f"><use href="#ic-steak"/></svg></div><div class="rbody">
+      <div class="rn">Gooseberry French Restaurant <span class="bdg b-open">可換掉 8/24 晚餐</span></div>
+      <div class="rc">現代法式・明火・乾式熟成牛排</div>
+      <div class="rm"><b>📍</b> Gg. Pirta, Pecatu（Bingin 上方崖頂，在拆除線以上，照常營業）</div>
+      <div class="rm"><b>🕐</b> 每日 08:00–22:30　<b>⭐</b> 4.8／9,248 則 Google・5.0／731 則 TA　<b>💵</b> IDR 90–180 萬</div>
+      <div class="rm ro"><b>點什麼：</b>乾式熟成牛排、油封鴨胸、脆皮豬五花。官網價格：前菜 9.5–37.5 萬／主餐 11–57.5 萬</div>
+      <div class="rm rw">👉 <b>Uluwatu 最好評的正經餐廳，而且差距很大。</b>想把 8/24 那頓從「好吃的燒烤」升級成大餐就換這家</div>
+      <div class="rm rx">⚠️ 要訂位</div>
+      <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Gooseberry%20French%20Restaurant%20Uluwatu" target="_blank">📷 看照片・評價</a></div>
+    </div></div>
+    <div class="rcard"><div class="rpic" style="background:linear-gradient(140deg,#e6f2f3,#fffefb)"><svg viewBox="0 0 52 52" style="color:#1d6f7a"><use href="#ic-plate"/></svg></div><div class="rbody">
+      <div class="rn">Cuca Jimbaran <span class="bdg b-open">要開 25–35 分鐘</span></div>
+      <div class="rc">創意 tapas・調酒</div>
+      <div class="rm"><b>📍</b> Jimbaran（離住處 25–35 分車程）</div>
+      <div class="rm"><b>🕐</b> 每日 12:00–23:00　<b>⭐</b> ⏳ 未取得評分　<b>💵</b> 單點 tapas；主廚套餐 IDR 96 萬++／人</div>
+      <div class="rm ro"><b>點什麼：</b>走單點 tapas，不用點套餐——一堆小份量高蛋白盤子</div>
+      <div class="rm rw">👉 南峇里島度假村以外技術最好的廚房之一</div>
+      <div class="rm rx">⚠️ 「++」是另加 15–21% 稅和服務費，不是裝飾</div>
+      <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Cuca%20Jimbaran%20Bali" target="_blank">📷 看照片・評價</a></div>
+    </div></div>
+  </div>
+
+  <div class="tip" style="margin-top:18px"><b>💡 兩個結構性提醒：</b><br>
+  ① Uluwatu 崖上的 beach club 收的是<b>最低消</b>不是入場費——<b>坐下前先問金額</b>。<br>
+  ② 高檔餐廳菜單價後面的「<b>++</b>」是<b>另加 15–21% 稅和服務費</b>。The Cave、Gooseberry、Cuca 都是這樣，看到的價格不是最後付的價格。</div>
+</div>
+
+<!-- ================= DIR ================= -->
+<div class="panel" id="dir">
+  <div class="lead">會用到的地點、電話、官網。點藍色標籤直接開 Google Maps。</div>
+
+  <h2>🏠 住宿</h2>
+  <div class="dir"><div class="dn">Bocoa Villas <span class="dz">北基地</span></div>
+    <div class="da">Jalan Dalem Warung, Pererenan, Bali 80351</div>
+    <div class="dm"><b>8/19 15:00 – 8/24 11:00</b>　Airbnb　房東 Bocoa Villas Canggu</div>
+    <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Jalan%20Dalem%20Warung%2C%20Pererenan%2C%20Bali%2080351" target="_blank">📍 Google Map</a></div></div>
+
+  <div class="dir"><div class="dn">The Form <span class="dz s">南基地</span></div>
+    <div class="da">The Form, Banjar Labuhan Sait, 南庫塔, 峇里島 80361</div>
+    <div class="dm"><b>8/24 15:00 – 8/27 11:00</b>　確認碼 <b>HMM•••••TN</b>　⚠️ 智慧鎖，密碼要先跟房東拿</div>
+    <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Banjar%20Labuhan%20Sait%2C%20Uluwatu%2C%20Bali%2080361" target="_blank">📍 Google Map</a></div></div>
+
+  <h2>🏋️ 健身 · 恢復</h2>
+  <div class="dir"><div class="dn">Reload Sanctuary <span class="dz">8/20 全天</span></div>
+    <div class="da">Jl. Canggu Padang Linjong No.8, Canggu</div>
+    <div class="dm">每日 06:00–22:00　Day Pass <b>IDR 549,000</b>（14 天有效）　18 歲以上　<b>現場買即可</b></div>
+    <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Reload%20Sanctuary%20Canggu%20Bali" target="_blank">📍 Google Map</a><a class="lk web" href="https://www.reloadsanctuary.com/" target="_blank">🌐 官網</a></div></div>
+
+  <div class="dir"><div class="dn">Nirvana Life <span class="dz">8/23 全天 · 已訂</span></div>
+    <div class="da">Jl. Pantai Berawa No.8, Canggu</div>
+    <div class="dm">場館 06:00–23:00　<b>+62 818-0398-0800</b>　Life Pass 單日票 ＆ 漂浮聲療都已付清，<b>當天直接進場</b></div>
+    <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Nirvana%20Life%20Bali%20Jl%20Pantai%20Berawa%20No%208" target="_blank">📍 Google Map</a><a class="lk web" href="https://nirvanalife.com/bali/" target="_blank">🌐 官網</a><a class="lk wa" href="https://wa.me/6281803980800" target="_blank">💬 WhatsApp</a></div></div>
+
+  <div class="dir"><div class="dn">RITE Bali <span class="dz o">8/21 早上 · 想練再去</span></div>
+    <div class="da">Jl. Pantai Pererenan No.158, Pererenan 80351</div>
+    <div class="dm">每日 06:00–22:00　Day Pass <b>IDR 500,000（官網公開、已含稅）</b>＝健身房＋恢復＋課程<br><b>+62 822-3665-9949</b>　八個訓練空間・Technogym・全場冷氣・7–9°C 冷水池／桑拿／蒸氣／12m 泳池</div>
+    <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=RITE%20Bali%20Jl%20Pantai%20Pererenan" target="_blank">📍 Google Map</a><a class="lk web" href="https://ritebali.com/pages/memberships" target="_blank">🌐 官網</a><a class="lk wa" href="https://wa.me/6282236659949" target="_blank">💬 WhatsApp</a></div></div>
+
+  <div class="dir"><div class="dn">Bambu Fitness Bali <span class="dz o">8/27 早上 · 備用</span></div>
+    <div class="da">Jl. Pantai Bingin, Pecatu（離 The Form 很近）</div>
+    <div class="dm">CrossFit 場館　週一–五 06:30–22:00／週末 06:30–19:00　<b>單次 IDR 225,000</b>　含冷氣、泳池、桑拿</div>
+    <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Bambu%20Fitness%20Bali%20Bingin" target="_blank">📍 Google Map</a></div></div>
+
+  <h2>🎭 景點 · 活動</h2>
+  <div class="dir"><div class="dn">Udara Bali <span class="dz">8/21 晚 · 已訂</span></div>
+    <div class="da">Jl. Pura Kramat, Seseh 80351（離 Pererenan 10–15 分）</div>
+    <div class="dm">Quantum Sound Dome　17:30–20:00　前台／spa <b>+62 877-6537-7313</b>　訂位 +62 878-7779-9970<br>frontdesk@udara-bali.com　⚠️ 健身房只開放住客</div>
+    <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Udara%20Bali%20Seseh" target="_blank">📍 Google Map</a><a class="lk wa" href="https://wa.me/6287765377313" target="_blank">💬 WhatsApp</a></div></div>
+
+  <div class="dir"><div class="dn">Nuanu Creative City <span class="dz">8/22 · 已訂</span></div>
+    <div class="da">Jl. Pantai Nyanyi, Beraban, Kediri, Tabanan 82121</div>
+    <div class="dm">園區 07:45–23:00　⚠️ <b>導航設「Nuanu Parking 1」</b>，不要設 Luna<br>園方 WhatsApp <b>+62 811-3887-8899</b>　hello@nuanu.com　Luna 訂位 +62 819-3600-5511</div>
+    <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Nuanu%20Parking%201%20Beraban%20Tabanan%20Bali" target="_blank">📍 Nuanu Parking 1</a><a class="lk web" href="https://lunabeachclubbali.com/" target="_blank">🌐 Luna Beach Club</a><a class="lk wa" href="https://wa.me/6281138878899" target="_blank">💬 園方 WhatsApp</a></div></div>
+
+  <div class="dir"><div class="dn">烏魯瓦圖神廟 · Kecak 火舞 <span class="dz s">8/24 · 已訂</span></div>
+    <div class="da">Pura Luhur Uluwatu, Pecatu, Kuta Selatan, Badung</div>
+    <div class="dm">火舞 18:00–19:00　<b>神廟入場 IDR 60,000 現金／人</b>＋停車 5,000（票不含）<br>⚠️ 先到先坐，16:50 到　⚠️ 獼猴會搶手機和眼鏡</div>
+    <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Pura%20Luhur%20Uluwatu" target="_blank">📍 Google Map</a></div></div>
+
+  <div class="dir"><div class="dn">Sanur Harbour <span class="dz o">8/25 出發港</span></div>
+    <div class="da">Jl. Matahari Terbit, Sanur Kaja, Denpasar Selatan 80227</div>
+    <div class="dm">⚠️ <b>先到 Sanur Matahari Terbit 海灘的 Tanis 兌換票櫃檯換實體票</b>（07:00），再走到<b>新沙努爾港</b>候船——兩地有一段路<br>已改成<b>棧橋乾式登船</b>，不用涉水<br>💵 <b>航廈有 ATM，當天現金在這裡領</b></div>
+    <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Sanur%20Harbour%20Jl%20Matahari%20Terbit%20Bali" target="_blank">📍 Google Map</a><a class="lk web" href="https://marutigroupfastboat.com/" target="_blank">🌐 Maruti 快艇</a><a class="lk wa" href="https://wa.me/6281246892524" target="_blank">💬 Maruti WhatsApp</a></div></div>
+
+  <div class="dir"><div class="dn">Nusa Penida（Kelingking／Broken Beach／Crystal Bay）<span class="dz o">8/25</span></div>
+    <div class="da">Nusa Penida, Klungkung　停靠港 Banjar Nyuh II（西岸）</div>
+    <div class="dm">上島費 IDR 25,000／人　Kelingking 門票約 25,000／人　<b>島上幾乎沒有 ATM、多數店家不收卡</b><br>✅ 包車已訂 <b>GSQ•••267</b>（9 小時西線）· 司機 <b>09:00 在 Banjar Nyuh 碼頭售票處</b>拿 Klook 標誌等<br>供應商 WhatsApp <b>+62 812-3754-0199</b></div>
+    <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Kelingking%20Beach%20Nusa%20Penida" target="_blank">📍 Kelingking</a><a class="lk web" href="https://www.klook.com/activity/23014-nusa-penida-private-car-charter-bali/" target="_blank">🎫 Klook 包車</a><a class="lk wa" href="https://wa.me/6281320910197" target="_blank">💬 島上包車</a></div></div>
+
+  <h2>🍽️ 餐廳 · Spa</h2>
+  <div class="dir"><div class="dn">The Cave by Chef Ryan Clift <span class="dz s">8/26 · 已訂</span></div>
+    <div class="da">The Edge Bali, Jl. Pura Goa Lempeh, Pecatu 80361</div>
+    <div class="dm">晚餐 17:30–19:30　僅 22 席　<b>+62 821-4463-2077</b>　cave@theedgebali.com<br>Smart-casual · 沒有電梯 · 用餐 2–2.5 小時</div>
+    <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=The%20Edge%20Bali%20Jl%20Pura%20Goa%20Lempeh%20Pecatu" target="_blank">📍 Google Map</a><a class="lk web" href="https://theedgebali.com/dining/the-cave/" target="_blank">🌐 官網</a><a class="lk wa" href="https://wa.me/6282144632077" target="_blank">💬 WhatsApp</a></div></div>
+
+  <div class="dir"><div class="dn">The Calma Spa Bali <span class="dz o">8/26 白天 · 可選</span></div>
+    <div class="da">Jl. Uluwatu II No.108X, Jimbaran, Kuta Selatan, Badung</div>
+    <div class="dm">每日 11:00–21:00　<b>Jimbaran 區免費接送</b>　<b>+62 852-1168-1169</b><span class="q">⏳ 價格未公開</span></div>
+    <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=The%20Calma%20Spa%20Bali%20Jimbaran" target="_blank">📍 Google Map</a><a class="lk web" href="https://calmaspabali.com/" target="_blank">🌐 官網</a><a class="lk wa" href="https://wa.me/6285211681169" target="_blank">💬 WhatsApp</a></div></div>
+
+  <h2>✈️ 交通 · 手續</h2>
+  <div class="dir"><div class="dn">DPS 伍拉·賴國際機場 <span class="dz o">8/19 進 · 8/27 出</span></div>
+    <div class="da">Ngurah Rai International Airport, Tuban, Badung</div>
+    <div class="dm">→ Pererenan 75–120 分（傍晚）　→ Uluwatu 40–60 分</div>
+    <div class="lks"><a class="lk map" href="https://www.google.com/maps/search/?api=1&query=Ngurah%20Rai%20International%20Airport%20Bali" target="_blank">📍 Google Map</a></div></div>
+
+  <div class="dir"><div class="dn">All Indonesia 入境卡 <span class="dz o">8/16 起才能填</span></div>
+    <div class="da">allindonesia.imigrasi.go.id　<b>免費</b>，海關＋健康＋檢疫合一</div>
+    <div class="dm">⚠️ 只能在抵達前 72 小時內送出　⚠️ 不要用 ecd.beacukai.go.id（那個現在只給陸路和出境）</div>
+    <div class="lks"><a class="lk web" href="https://allindonesia.imigrasi.go.id" target="_blank">🌐 官方入境卡</a></div></div>
+
+  <div class="dir"><div class="dn">峇里島觀光稅（Love Bali）<span class="dz">✅ 已繳</span></div>
+    <div class="da">憑證號 <b>LVB26•••••L</b>（JIAXIANG ZHANG）／<b>LVB26•••••9</b>（YIAN CHI）</div>
+    <div class="dm">兩人共 IDR 309,000（含手續費）　<b>入境時要出示憑證上的 QR Code</b>，記得存截圖</div></div>
+
+  <div class="dir"><div class="dn">中華航空 網路報到 <span class="dz o">8/17 ＆ 8/25</span></div>
+    <div class="da">兩段訂位代號不同，<b>必須分開操作</b></div>
+    <div class="dm">去程 CI771 <b>CM••••D</b>（約 8/17 開放）　回程 CI772 <b>CM••••N</b>（約 8/25 開放）<br>⚠️ 8/25 那天你們人在 Nusa Penida 跳島，<b>設鬧鐘</b></div>
+    <div class="lks"><a class="lk web" href="https://www.china-airlines.com/tw/zh" target="_blank">🌐 華航官網</a></div></div>
+</div>
+
+<footer>
+  <b>2026/8/16 分享版</b>：這是<b>公開分享用</b>的版本，所有護照號、簽證號、訂單編號、電話與 Email 都已遮蔽。<br><b>原始完整版 v8</b>：交通改為 Grab／計程車自理，包車項目已全部移除；8/23 按摩取消（費用已付、不可退，當天可自行決定用不用）；跳島的船票與島上包車留待一起訂。8/14 觀光稅已繳（LVB26•••••L／LVB26•••••9）；跳島定案為西線、不浮潛；<b>全部訂完了</b>（船票 GBG•••003、包車 GSQ•••267）。總覽表加上「吃什麼」欄；「🍽️ 吃什麼」改成每餐三選一的卡片，每張都可點開 Google 地圖看實景照片，全天圍繞 09:40 的 Kelingking 重排。東西線比較表在第 ③ 項下方。「⚠️ 還缺什麼」是現在唯一要動的清單。<br>
+  日落時間為 -8.72°S／115.17°E 天文計算值（8/19–8/26 為 18:18，8/27 為 18:17）。車程為公開資料分時段區間推估。價格為 2026/7–8 觀察值，未預訂的項目訂前請再確認。地圖連結為 Google Maps 地址搜尋，開啟後請自行確認實際店家。標 <span class="q">⏳</span> 的項目表示查無可靠來源。
+</footer>
+
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on')});
+    document.querySelectorAll('.panel').forEach(function(x){x.classList.remove('on')});
+    b.classList.add('on');
+    document.getElementById(b.dataset.p).classList.add('on');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+</script>
+</body>
+</html>
